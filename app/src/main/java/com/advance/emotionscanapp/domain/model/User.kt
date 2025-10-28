@@ -1,8 +1,28 @@
 package com.advance.emotionscanapp.domain.model
 
-data class User(
-    val id: Int,
-    val name:String,
-    val email: String,
-    val avatar: String
-)
+import java.security.Permission
+
+sealed class User {
+    abstract val id: Int
+    abstract val name: String
+    abstract val email: String
+
+    data class RegularUser(
+        override val id: Int,
+        override val name: String,
+        override val email: String
+    ): User()
+
+    data class AdminUser(
+        override val id: Int,
+        override val name: String,
+        override val email: String,
+        val permission: List<String>
+    ): User()
+
+    data class GuestUser(
+        override val id: Int,
+        override val name: String,
+        override val email: String
+    ): User()
+}

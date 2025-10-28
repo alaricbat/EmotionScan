@@ -1,3 +1,5 @@
+import shadow.bundletool.com.android.tools.r8.internal.rx
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -49,6 +51,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.io.reactivex.rxjava3)
+    implementation(libs.io.reactivex.rxandroid3)
+    implementation(libs.io.reactivex.rxkotlin3)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
