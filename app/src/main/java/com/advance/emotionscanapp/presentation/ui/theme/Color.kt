@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.ui.theme
+package com.advance.emotionscanapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
