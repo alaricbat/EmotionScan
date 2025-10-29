@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.domain.usecase
+package com.advance.emotionscanapp.domain.usecase.strategy
 
 import com.advance.emotionscanapp.domain.model.User
 import io.reactivex.rxjava3.core.Single

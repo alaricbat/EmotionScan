@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.domain.usecase
+package com.advance.emotionscanapp.domain.usecase.strategy
 
 import android.os.SystemClock
 import com.advance.emotionscanapp.domain.model.User
@@ -28,4 +28,5 @@ class CachedUserStrategy(
     override fun shouldRefresh(): Boolean {
         return SystemClock.elapsedRealtime() - lastRefreshTime > CACHE_DURATION
     }
+
 }

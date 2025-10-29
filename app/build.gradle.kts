@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.android) apply false
+    kotlin("kapt")
 }
 
 android {
@@ -54,6 +56,8 @@ dependencies {
     implementation(libs.io.reactivex.rxjava3)
     implementation(libs.io.reactivex.rxandroid3)
     implementation(libs.io.reactivex.rxkotlin3)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.complier)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
