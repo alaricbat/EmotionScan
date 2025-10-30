@@ -12,6 +12,10 @@ rxJava="3.1.12"
 rxAndroid = "3.0.2"
 rxKotlin = "3.0.1"
 hiltVersion = "2.46.1"
+gsonVersion = "2.10.1"
+gsonRetrofit = "2.9.0"
+roomVersion = "2.8.3"
+kspVerson = "2.0.21-1.0.27"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,11 +35,16 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 io-reactivex-rxjava3 = {group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxJava"}
 io-reactivex-rxandroid3 = {group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxAndroid"}
 io-reactivex-rxkotlin3 = {group = "io.reactivex.rxjava3", name = "rxkotlin", version.ref = "rxKotlin"}
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion"}
-hilt-complier = { group = "com.google.dagger", name="hilt-android-compiler", version.ref = "hiltVersion" }
+hilt-android = {group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion"}
+hilt-complier = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltVersion"}
+gson-google = {group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion"}
+gson-retrofit = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gsonRetrofit"}
+room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "roomVersion"}
+room-complier = {group = "androidx.room", name = "room-compiler", version.ref = "roomVersion"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+kotlin-ksp = { id = "com.google.devtools.ksp" , version.ref = "kspVerson"}
