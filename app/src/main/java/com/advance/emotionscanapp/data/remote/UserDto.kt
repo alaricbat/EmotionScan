@@ -9,10 +9,10 @@ data class UserDto(
     val id: Int,
 
     @SerializedName("name")
-    val name: Int,
+    val name: String,
 
     @SerializedName("email")
-    val email: Int,
+    val email: String,
 
     @SerializedName("avatar")
     val avatar: String? = null,

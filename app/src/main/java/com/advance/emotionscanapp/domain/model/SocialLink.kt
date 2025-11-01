@@ -16,4 +16,10 @@ sealed class SocialLink {
         override val platformName: String = "LinkedIn"
     }
 
+    data class Other(
+        override val url: String
+    ): SocialLink() {
+        override val platformName: String = "Other"
+    }
+
 }

@@ -1,10 +1,9 @@
 package com.advance.emotionscanapp.domain.model
 
 data class AboutMe(
-    val name: String,
-    val role: String,
-    val description: String,
-    val skills: List<String>
+    val personalInfo: PersonalInfo,
+    val professionalInfo: ProfessionalInfo,
+    val socialLinks: List<SocialLink>
 ) {
 
     data class PersonalInfo(
@@ -22,7 +21,8 @@ data class AboutMe(
     data class Skill(
         val name: String,
         val level: SkillLevel,
-        val category: SkillCategory
+        val category: SkillCategory,
+        val yearsOfExperience: Int? = 0
     )
 
     enum class SkillLevel { BEGINNER, INTERMEDIATE, ADVANCE, EXPERT }
