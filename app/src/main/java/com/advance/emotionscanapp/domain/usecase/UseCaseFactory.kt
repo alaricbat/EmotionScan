@@ -7,15 +7,21 @@ import com.advance.emotionscanapp.domain.usecase.strategy.UserStrategy
 import javax.inject.Inject
 
 class UseCaseFactory @Inject constructor(
-    private val userRepository: UserRepository,
-    private val aboutRepository: AboutRepository
+    private val _userRepository: UserRepository,
+    private val _aboutRepository: AboutRepository
 ) {
 
+    val userRepository: UserRepository
+        get() = _userRepository
+
+    val aboutRepository: AboutRepository
+        get() = _aboutRepository
+
     fun createGetUsersUseCase(
-        strategy: UserStrategy = DefaultUserStrategy(userRepository)): GetUsersUseCase {
+        strategy: UserStrategy = DefaultUserStrategy(_userRepository)): GetUsersUseCase {
         return GetUsersUseCase(strategy)
     }
 
-    fun createGetAboutInfoUseCase() = GetAboutInfoUseCase(aboutRepository)
+    fun createGetAboutInfoUseCase() = GetAboutInfoUseCase(_aboutRepository)
 
 }
