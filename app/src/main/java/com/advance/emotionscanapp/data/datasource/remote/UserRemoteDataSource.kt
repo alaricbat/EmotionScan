@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.data.datasource.local
+package com.advance.emotionscanapp.data.datasource.remote
 
 import com.advance.emotionscanapp.data.remote.UserDto
 import io.reactivex.rxjava3.core.Single
