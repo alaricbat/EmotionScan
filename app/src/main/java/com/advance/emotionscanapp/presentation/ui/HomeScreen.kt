@@ -54,19 +54,17 @@ fun HomeScreen (
 
     val state by viewModel.state.observeAsState( HomeState())
 
-    LaunchedEffect(Unit) {
-        viewModel.events.observeAsState().value?.let { event ->
-            when (event) {
-                is HomeEvent.NavigateToUserDetail -> onNavigationToDetail(event.user)
-                is HomeEvent.ShowError -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                else -> {}
-            }
+    viewModel.events.observeAsState().value?.let { event ->
+        when (event) {
+            is HomeEvent.NavigateToUserDetail -> onNavigationToDetail(event.user)
+            is HomeEvent.ShowError -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            else -> {}
         }
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.processIntent(HomeIntent.LoadMoreUsers)
-    }
+//    LaunchedEffect(Unit) {
+//        viewModel.processIntent(HomeIntent.LoadMoreUsers)
+//    }
 
     HomeContent(
         state = state,

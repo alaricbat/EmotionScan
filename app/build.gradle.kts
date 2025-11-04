@@ -1,10 +1,9 @@
-import shadow.bundletool.com.android.tools.r8.internal.rx
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.hilt.android) apply false
+    alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.ksp)
     kotlin("kapt")
 }
@@ -33,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        jvmToolchain(17)
     }
     buildFeatures {
         compose = true
@@ -69,6 +68,7 @@ dependencies {
     implementation(libs.compose.runtime)
     implementation(libs.compose.livedata)
     implementation(libs.compose.rxjava)
+    implementation(libs.hilt.plugin)
     kapt(libs.dagger.hilt.complier)
     kapt(libs.hilt.complier)
     ksp(libs.room.complier)
@@ -79,4 +79,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+kapt {
+    correctErrorTypes = true
 }
