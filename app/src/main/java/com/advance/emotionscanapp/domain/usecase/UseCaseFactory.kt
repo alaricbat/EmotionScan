@@ -4,9 +4,10 @@ import com.advance.emotionscanapp.domain.repository.AboutRepository
 import com.advance.emotionscanapp.domain.repository.UserRepository
 import com.advance.emotionscanapp.domain.usecase.strategy.DefaultUserStrategy
 import com.advance.emotionscanapp.domain.usecase.strategy.UserStrategy
-import javax.inject.Inject
+//import javax.inject.Inject
 
-class UseCaseFactory @Inject constructor(
+//class UseCaseFactory @Inject constructor(
+class UseCaseFactory constructor(
     private val _userRepository: UserRepository,
     private val _aboutRepository: AboutRepository
 ) {
