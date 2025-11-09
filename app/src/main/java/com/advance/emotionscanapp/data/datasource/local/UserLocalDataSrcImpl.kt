@@ -14,7 +14,7 @@ class UserLocalDataSrcImpl @Inject constructor(
     private val userDao: UserDao
 ): IUserLocalDataSource {
 
-    override suspend fun insert(user: UserEntity): DbResult<Nothing?> {
+    override fun insert(user: UserEntity): DbResult<Nothing?> {
         return runCatching {
             userDao.insert(user)
             DbResult(
@@ -37,7 +37,7 @@ class UserLocalDataSrcImpl @Inject constructor(
         }
     }
 
-    override suspend fun update(user: UserEntity): DbResult<Nothing?> {
+    override fun update(user: UserEntity): DbResult<Nothing?> {
         return runCatching {
             userDao.update(user)
             DbResult(
@@ -60,7 +60,7 @@ class UserLocalDataSrcImpl @Inject constructor(
         }
     }
 
-    override suspend fun delete(user: UserEntity): DbResult<Nothing?> {
+    override fun delete(user: UserEntity): DbResult<Nothing?> {
         return runCatching {
             userDao.delete(user)
             DbResult(
@@ -83,7 +83,7 @@ class UserLocalDataSrcImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserById(id: Int): DbResult<Flow<UserEntity>?> {
+    override fun getUserById(id: Int): DbResult<Flow<UserEntity>?> {
         return runCatching {
             val user = userDao.getUserById(id)
             DbResult<Flow<UserEntity>?>(
@@ -106,7 +106,7 @@ class UserLocalDataSrcImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAll(): DbResult<Flow<List<UserEntity>>?> {
+    override fun getAll(): DbResult<Flow<List<UserEntity>>?> {
         return runCatching {
             val users = userDao.getAll()
             DbResult<Flow<List<UserEntity>>?>(

@@ -1,6 +1,6 @@
 package com.advance.emotionscanapp.di
 
-import com.advance.emotionscanapp.domain.repository.AboutRepository
+import com.advance.emotionscanapp.domain.repository.IAboutRepository
 import com.advance.emotionscanapp.domain.repository.UserRepository
 import com.advance.emotionscanapp.domain.usecase.UseCaseFactory
 import dagger.Module
@@ -17,9 +17,9 @@ object UseCaseModule {
     @Singleton
     fun provideUseCaseFactory(
         userRepository: UserRepository,
-        aboutRepository: AboutRepository
+        IAboutRepository: IAboutRepository
     ): UseCaseFactory {
-        return UseCaseFactory(userRepository, aboutRepository)
+        return UseCaseFactory(userRepository, IAboutRepository)
     }
 
 }

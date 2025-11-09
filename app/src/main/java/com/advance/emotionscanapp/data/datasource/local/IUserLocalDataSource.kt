@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface IUserLocalDataSource {
 
-    suspend fun insert(user: UserEntity): DbResult<Nothing?>
+    fun insert(user: UserEntity): DbResult<Nothing?>
 
-    suspend fun update(user: UserEntity): DbResult<Nothing?>
+    fun update(user: UserEntity): DbResult<Nothing?>
 
-    suspend fun delete(user: UserEntity): DbResult<Nothing?>
+    fun delete(user: UserEntity): DbResult<Nothing?>
 
-    suspend fun getUserById(id: Int): DbResult<Flow<UserEntity>?>
+    fun getUserById(id: Int): DbResult<Flow<UserEntity>?>
 
-    suspend fun getAll(): DbResult<Flow<List<UserEntity>>?>
+    fun getAll(): DbResult<Flow<List<UserEntity>>?>
 
 }

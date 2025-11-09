@@ -59,6 +59,19 @@ class UserMapper @Inject constructor() {
         updatedAt = dto.updatedAt,
     )
 
+    fun mapToEntity(dto: User): UserEntity = UserEntity(
+        id = dto.id,
+        name = dto.name,
+        email = dto.email,
+        avatar = "",
+        role = "",
+        department = "",
+        permissions = emptyList(),
+        expiryDate = 0L,
+        createdAt = "",
+        updatedAt = "",
+    )
+
     fun mapToDto(user: User): UserDto = when(user) {
         is User.AdminUser -> UserDto(
             id = user.id,
