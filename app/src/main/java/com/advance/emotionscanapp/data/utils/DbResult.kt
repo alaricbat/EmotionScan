@@ -1,11 +1,11 @@
 package com.advance.emotionscanapp.data.utils
  open class DbResult<out T>(
      private val data: T,
-     private val resultDb: BaseDb
+     private val resultInfo: BaseResultInfo
  ) {
 
      fun getData(): T = data
 
-     fun isSuccess() = resultDb.isSuccess()
+     fun getResultInfo(): BaseResultInfo = resultInfo
 
 }
