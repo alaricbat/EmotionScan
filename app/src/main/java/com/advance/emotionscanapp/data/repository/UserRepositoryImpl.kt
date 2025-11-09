@@ -1,40 +1,48 @@
 package com.advance.emotionscanapp.data.repository
 
-import com.advance.emotionscanapp.data.datasource.local.UserLocalDataSource
+import com.advance.emotionscanapp.data.datasource.local.IUserLocalDataSource
 import com.advance.emotionscanapp.data.datasource.remote.UserRemoteDataSource
+import com.advance.emotionscanapp.data.local.UserEntity
 import com.advance.emotionscanapp.data.mapper.UserMapper
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.repository.UserRepository
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
     private val remoteDataSource: UserRemoteDataSource,
-    private val localDataSource: UserLocalDataSource,
-    private val userMapper: UserMapper
+    private val localDataSource: IUserLocalDataSource,
+    private val userMapper: UserMapper,
 ): UserRepository {
 
-    override fun getUsers(): Single<List<User>> {
-        return localDataSource.getUsers()
-            .flatMap { userEntities ->
-                if (userEntities.isNotEmpty()) {
-                    Single.just(userEntities.map { userMapper.mapToDomain(it) })
-                } else {
-                    fetchAndCacheUsers()
-                }
-            .onErrorResumeNext { throwable ->
-                fetchAndCacheUsers()
-            }
-        }
+    override fun insert(user: User) {
+
     }
 
-    override fun getUserById(id: Int): Single<User> {
-        return localDataSource.getUserById(id)
-            .map { userMapper.mapToDomain(it) }
-            .onErrorResumeNext {
-                remoteDataSource.getUserById(id).map { userMapper.mapToDomain(it) }
-            }
+    override fun update(user: User) {
+        TODO("Not yet implemented")
+    }
+
+    override fun delete(user: User) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserByIdFlow(id: Int): Flow<UserEntity> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getUserByIdRxSingle(id: Int): Single<User> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllFlow(): Flow<List<User>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAllRxSingle(): Single<List<User>> {
+        TODO("Not yet implemented")
     }
 
     override fun refreshUsers(): Completable {
