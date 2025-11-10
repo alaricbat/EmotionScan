@@ -8,6 +8,7 @@ import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.repository.IUserRepository
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -20,44 +21,54 @@ class UserRepositoryImpl @Inject constructor(
     override fun insert(t: User): Completable {
         return Completable.fromAction {
             val userEntity = userMapper.mapToEntity(t)
-            localDataSource.insert(userEntity)
+            val resultDb = localDataSource.insert(userEntity)
+            if (!resultDb.getResultInfo().isSuccess()) {
+                throw Exception(resultDb.getResultInfo().exMsg)
+            }
         }
     }
 
     override fun update(t: User): Completable {
         return Completable.fromAction {
             val userEntity = userMapper.mapToEntity(t)
-            localDataSource.update(userEntity)
+            val resultDb = localDataSource.update(userEntity)
+            if (!resultDb.getResultInfo().isSuccess()) {
+                throw Exception(resultDb.getResultInfo().exMsg)
+            }
         }
     }
 
     override fun delete(t: User): Completable {
         return Completable.fromAction {
             val userEntity = userMapper.mapToEntity(t)
-            localDataSource.delete(userEntity)
+            val resultDb = localDataSource.delete(userEntity)
+            if (!resultDb.getResultInfo().isSuccess()) {
+                throw Exception(resultDb.getResultInfo().exMsg)
+            }
         }
     }
 
     override suspend fun getById(id: Int): Single<User> {
-        val result = localDataSource.getUserById(id)
-        var user: UserEntity? = null
-        result.getData()?.collect { u ->
-            user = u
+        val resultDb = localDataSource.getUserById(id)
+        if (resultDb.getResultInfo().isSuccess()) {
+            val user = resultDb.getData()!!.first().let {entity ->
+                userMapper.mapToDomain(entity)
+            }
+            return Single.just(user)
+        } else {
+            return Single.error { Throwable(resultDb.getResultInfo().exMsg) }
         }
-        val userObj = user?.let { userMapper.mapToDomain(it) }
-        return Single.just(userObj!!)
     }
 
     override suspend fun getAll(): Single<List<User>> {
-        val result = localDataSource.getAll()
-        var userEntityList: List<UserEntity> = emptyList()
-        val userList: MutableList<User> = ArrayList()
-        result.getData()?.collect { uList ->
-            userEntityList = uList
+        val resultDb = localDataSource.getAll()
+        if (resultDb.getResultInfo().isSuccess()) {
+            val users = resultDb.getData()!!.first().map { entity ->
+                userMapper.mapToDomain(entity)
+            }
+            return Single.just(users)
+        } else {
+            return Single.error { Throwable(resultDb.getResultInfo().exMsg) }
         }
-        userEntityList.forEach { entity ->
-            userList.add(userMapper.mapToDomain(entity))
-        }
-        return Single.just(userList)
     }
 }
