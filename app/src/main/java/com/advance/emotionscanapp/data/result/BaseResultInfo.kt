@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.data.utils
+package com.advance.emotionscanapp.data.result
 
 abstract class BaseResultInfo(
     val resultCode: Int

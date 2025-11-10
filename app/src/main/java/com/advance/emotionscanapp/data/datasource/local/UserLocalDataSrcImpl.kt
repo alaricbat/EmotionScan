@@ -2,11 +2,11 @@ package com.advance.emotionscanapp.data.datasource.local
 
 import com.advance.emotionscanapp.data.local.UserEntity
 import com.advance.emotionscanapp.data.sql.UserDao
-import com.advance.emotionscanapp.data.utils.DbResult
-import com.advance.emotionscanapp.data.utils.ErrorCode
-import com.advance.emotionscanapp.data.utils.ResultInfoError
-import com.advance.emotionscanapp.data.utils.ResultInfoSuccess
-import com.advance.emotionscanapp.data.utils.SuccessCode
+import com.advance.emotionscanapp.data.result.DbResult
+import com.advance.emotionscanapp.data.result.ErrorCode
+import com.advance.emotionscanapp.data.result.ResultInfoError
+import com.advance.emotionscanapp.data.result.ResultInfoSuccess
+import com.advance.emotionscanapp.data.result.SuccessCode
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

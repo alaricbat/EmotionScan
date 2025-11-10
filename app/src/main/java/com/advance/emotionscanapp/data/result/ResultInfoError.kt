@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.data.utils
+package com.advance.emotionscanapp.data.result
 
 class ResultInfoError(
     errorCode: Int

@@ -6,7 +6,6 @@ import com.advance.emotionscanapp.domain.model.AboutMe
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.repository.IAboutRepository
 import com.advance.emotionscanapp.domain.repository.UserRepository
-import com.advance.emotionscanapp.domain.usecase.strategy.UserStrategy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 

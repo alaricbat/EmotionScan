@@ -2,7 +2,6 @@ package com.advance.emotionscanapp.data.repository
 
 import com.advance.emotionscanapp.data.datasource.local.IUserLocalDataSource
 import com.advance.emotionscanapp.data.datasource.remote.UserRemoteDataSource
-import com.advance.emotionscanapp.data.local.UserEntity
 import com.advance.emotionscanapp.data.mapper.UserMapper
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.repository.IUserRepository
@@ -19,31 +18,46 @@ class UserRepositoryImpl @Inject constructor(
     private val userMapper: UserMapper = UserMapper()
 
     override fun insert(t: User): Completable {
-        return Completable.fromAction {
-            val userEntity = userMapper.mapToEntity(t)
-            val resultDb = localDataSource.insert(userEntity)
-            if (!resultDb.getResultInfo().isSuccess()) {
-                throw Exception(resultDb.getResultInfo().exMsg)
+        return Completable.create { emitter ->
+            try {
+                val userEntity = userMapper.mapToEntity(t)
+                val resultDb = localDataSource.insert(userEntity)
+                if (!resultDb.getResultInfo().isSuccess()) {
+                    throw Exception(resultDb.getResultInfo().exMsg)
+                }
+                emitter.onComplete()
+            } catch (e: Exception) {
+                emitter.onError(e)
             }
         }
     }
 
     override fun update(t: User): Completable {
-        return Completable.fromAction {
-            val userEntity = userMapper.mapToEntity(t)
-            val resultDb = localDataSource.update(userEntity)
-            if (!resultDb.getResultInfo().isSuccess()) {
-                throw Exception(resultDb.getResultInfo().exMsg)
+        return Completable.create { emitter ->
+            try {
+                val userEntity = userMapper.mapToEntity(t)
+                val resultDb = localDataSource.update(userEntity)
+                if (!resultDb.getResultInfo().isSuccess()) {
+                    throw Exception(resultDb.getResultInfo().exMsg)
+                }
+                emitter.onComplete()
+            } catch (e: Exception) {
+                emitter.onError(e)
             }
         }
     }
 
     override fun delete(t: User): Completable {
-        return Completable.fromAction {
-            val userEntity = userMapper.mapToEntity(t)
-            val resultDb = localDataSource.delete(userEntity)
-            if (!resultDb.getResultInfo().isSuccess()) {
-                throw Exception(resultDb.getResultInfo().exMsg)
+        return Completable.create { emitter ->
+            try {
+                val userEntity = userMapper.mapToEntity(t)
+                val resultDb = localDataSource.delete(userEntity)
+                if (!resultDb.getResultInfo().isSuccess()) {
+                    throw Exception(resultDb.getResultInfo().exMsg)
+                }
+                emitter.onComplete()
+            } catch (e: Exception) {
+                emitter.onError(e)
             }
         }
     }

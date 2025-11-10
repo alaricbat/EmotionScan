@@ -1,7 +1,7 @@
 package com.advance.emotionscanapp.data.datasource.local
 
 import com.advance.emotionscanapp.data.local.UserEntity
-import com.advance.emotionscanapp.data.utils.DbResult
+import com.advance.emotionscanapp.data.result.DbResult
 import kotlinx.coroutines.flow.Flow
 
 interface IUserLocalDataSource {
