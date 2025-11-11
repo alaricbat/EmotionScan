@@ -1,9 +1,6 @@
 package com.advance.emotionscanapp.presentation.ui.home
 
-import androidx.room.Query
-import androidx.room.util.query
 import com.advance.emotionscanapp.domain.model.User
-import com.advance.emotionscanapp.domain.repository.UserRepository
 import com.advance.emotionscanapp.domain.usecase.GetUserByIdUseCase
 import com.advance.emotionscanapp.domain.usecase.GetUsersUseCase
 import com.advance.emotionscanapp.domain.usecase.UseCaseFactory
