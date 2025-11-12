@@ -5,12 +5,15 @@ import com.advance.emotionscanapp.domain.core.UseCase
 import com.advance.emotionscanapp.domain.model.AboutMe
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.repository.IAboutRepository
-import com.advance.emotionscanapp.domain.repository.UserRepository
+import com.advance.emotionscanapp.domain.usecase.strategy.Strategy
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
+
+class Stra
+
 class GetUsersUseCase(
-    private val strategy: UserStrategy
+    private val strategy: Strategy<User>
 ): UseCase<Unit, List<User>>() {
     override fun execute(params: Unit): Single<List<User>> = strategy.getUsers()
 }

@@ -4,7 +4,7 @@ data class AboutMe(
     val personalInfo: PersonalInfo,
     val professionalInfo: ProfessionalInfo,
     val socialLinks: List<SocialLink>
-) {
+) : BaseModel() {
 
     data class PersonalInfo(
         val name: String,

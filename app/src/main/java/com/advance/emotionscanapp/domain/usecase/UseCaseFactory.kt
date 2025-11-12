@@ -1,28 +1,21 @@
 package com.advance.emotionscanapp.domain.usecase
 
-import com.advance.emotionscanapp.domain.repository.IAboutRepository
-import com.advance.emotionscanapp.domain.repository.UserRepository
+import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.usecase.strategy.DefaultUserStrategy
+import com.advance.emotionscanapp.domain.usecase.strategy.Strategy
+import javax.inject.Inject
 
-//import javax.inject.Inject
-
-//class UseCaseFactory @Inject constructor(
-class UseCaseFactory constructor(
-    private val _userRepository: UserRepository,
-    private val _I_aboutRepository: IAboutRepository
+class UseCaseFactory @Inject constructor(
+    private val _userStrategy: Strategy<User>
 ) {
 
-    val userRepository: UserRepository
-        get() = _userRepository
+    val userStrategy: Strategy<User>
+        get() = _userStrategy
 
-    val IAboutRepository: IAboutRepository
-        get() = _I_aboutRepository
-
-    fun createGetUsersUseCase(
-        strategy: UserStrategy = DefaultUserStrategy(_userRepository)): GetUsersUseCase {
-        return GetUsersUseCase(strategy)
+    fun createGetUsersUseCase(): GetUsersUseCase {
+        return GetUsersUseCase(_userStrategy)
     }
 
-    fun createGetAboutInfoUseCase() = GetAboutInfoUseCase(_I_aboutRepository)
+    fun createGetAboutInfoUseCase() = null
 
 }

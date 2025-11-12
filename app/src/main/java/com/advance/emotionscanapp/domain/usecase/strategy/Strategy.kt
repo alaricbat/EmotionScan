@@ -1,17 +1,110 @@
 package com.advance.emotionscanapp.domain.usecase.strategy
 
-abstract class Strategy<T> {
+import com.advance.emotionscanapp.domain.core.OperationListener
+import com.advance.emotionscanapp.domain.model.BaseModel
+import com.advance.emotionscanapp.domain.repository.IRepository
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-    abstract fun insert(t: T)
+abstract class Strategy<T : BaseModel, in R: IRepository<T>> @Inject constructor(
+    private val repository: R
+) {
 
-    abstract fun update(t: T)
+    internal val compositeDisposable = CompositeDisposable()
 
-    abstract fun delete(t: T)
+    private var _operationListener: OperationListener<T>? = null
 
-    abstract suspend fun getById(id: Int)
+    var operationListener: OperationListener<T>? = null
+        set(value) {
+            field = value
+            _operationListener = value
+        }
 
-    abstract suspend fun getAll()
+    fun insert(t: T) {
+        compositeDisposable.add(
+            repository.insert(t)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnSubscribe {
+                    _operationListener?.onLoading()
+                }
+                .subscribe({
+                    _operationListener?.onSuccess()
+                }, { throwable ->
+                    _operationListener?.onError(throwable)
+                })
+        )
+    }
 
-    abstract fun release()
+    fun update(t: T) {
+        compositeDisposable.add(
+            repository.update(t)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnSubscribe {
+                    _operationListener?.onLoading()
+                }
+                .subscribe({
+                    _operationListener?.onSuccess()
+                }, { throwable ->
+                    _operationListener?.onError(throwable)
+                })
+        )
+    }
+
+    fun delete(t: T) {
+        compositeDisposable.add(
+            repository.delete(t)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnSubscribe {
+                    _operationListener?.onLoading()
+                }
+                .subscribe({
+                    _operationListener?.onSuccess()
+                }, { throwable ->
+                    _operationListener?.onError(throwable)
+                })
+        )
+    }
+
+    suspend fun getById(id: Int) {
+        compositeDisposable.add(
+            repository.getById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnSubscribe {
+                    _operationListener?.onLoading()
+                }
+                .subscribe({ user ->
+                    _operationListener?.onSuccessWithSingleData(user)
+                }, { throwable ->
+                    _operationListener?.onError(throwable)
+                })
+        )
+    }
+
+    suspend fun getAll() {
+        compositeDisposable.add(
+            repository.getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnSubscribe {
+                    _operationListener?.onLoading()
+                }
+                .subscribe({ users ->
+                    _operationListener?.onSuccessWithListData(users)
+                }, { throwable ->
+                    _operationListener?.onError(throwable)
+                })
+        )
+    }
+
+    fun release() {
+        compositeDisposable.clear()
+        _operationListener = null
+        operationListener = null
+    }
 
 }

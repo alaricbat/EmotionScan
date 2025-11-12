@@ -2,7 +2,7 @@ package com.advance.emotionscanapp.domain.model
 
 import java.security.Permission
 
-sealed class User {
+sealed class User : BaseModel(){
     abstract val id: Int
     abstract val name: String
     abstract val email: String
