@@ -1,6 +1,6 @@
 package com.advance.emotionscanapp.domain.usecase.strategy
 
-import com.advance.emotionscanapp.domain.core.OperationListener
+import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
 import io.reactivex.rxjava3.disposables.CompositeDisposable
