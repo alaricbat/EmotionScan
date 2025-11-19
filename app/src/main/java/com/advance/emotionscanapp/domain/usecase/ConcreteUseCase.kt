@@ -1,31 +1,22 @@
 package com.advance.emotionscanapp.domain.usecase
 
-import com.advance.emotionscanapp.domain.core.CompletableUseCase
+import com.advance.emotionscanapp.domain.core.ResultCode
 import com.advance.emotionscanapp.domain.core.UseCase
-import com.advance.emotionscanapp.domain.model.AboutMe
 import com.advance.emotionscanapp.domain.model.User
-import com.advance.emotionscanapp.domain.repository.IAboutRepository
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import com.advance.emotionscanapp.domain.usecase.strategy.StrategyContext
+
+class GetUserByIdUseCase(): UseCase<Int, ResultCode>() {
+    override suspend fun execute(params: Int): ResultCode {
+        strategyContext.sendRequest(
+            StrategyContext.StrategyKey.STRATEGY_USER,
+            StrategyContext.StrategyMsg.STRATEGY_MSG_GET_BY_ID,
+            null
+        )
+    }
+}
 
 class GetUsersUseCase(): UseCase<Unit, List<User>>() {
-    override fun execute(params: Unit): Single<List<User>> = strategy.getUsers()
-}
+    override suspend fun execute(params: Unit): List<User> {
+    }
 
-class GetUserByIdUseCase(
-    private val repository: UserRepository
-): UseCase<Int, User>() {
-    override fun execute(params: Int): Single<User> = repository.getUserById(params)
-}
-
-class GetAboutInfoUseCase(
-    private val repository: IAboutRepository
-): UseCase<Unit, AboutMe>() {
-    override fun execute(params: Unit): Single<AboutMe> = repository.getAboutInfo()
-}
-
-class UpdateAboutInfoUseCase(
-    private val repository: IAboutRepository
-): CompletableUseCase<AboutMe>() {
-    override fun execute(params: AboutMe): Completable = repository.updateAboutInfo(params)
 }

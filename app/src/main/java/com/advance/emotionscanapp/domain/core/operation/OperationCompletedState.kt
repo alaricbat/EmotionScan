@@ -1,12 +1,16 @@
 package com.advance.emotionscanapp.domain.core.operation
 
-class OperationCompletedState (
-    listener: OperationListener<Any>?
-): OperationState(listener) {
+class OperationCompletedState<T>: OperationState<T>() {
 
     override fun onCompleted() {
-        listener?.onCompleted()
-        state = OperationIdleState(listener)
+        try {
+            listener ?: throw NullPointerException("listener is null.")
+            listener!!.onCompleted()
+            state = OperationIdleState()
+        } catch (e: Exception) {
+            state = OperationErrorState()
+            state.onError(e)
+        }
     }
 
 }

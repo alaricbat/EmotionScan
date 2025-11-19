@@ -1,12 +1,10 @@
 package com.advance.emotionscanapp.domain.core.operation
 
-class OperationErrorState (
-    listener: OperationListener<Any>?
-): OperationState(listener) {
+class OperationErrorState<T>: OperationState<T>() {
 
     override fun onError(e: Throwable) {
         listener?.onError(e)
-        state = OperationIdleState(listener)
+        state = OperationIdleState()
     }
 
 }

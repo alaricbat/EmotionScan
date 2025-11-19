@@ -29,7 +29,8 @@ class StrategyContext {
         }
     }
 
-    fun sendRequest(key: StrategyKey, msg: StrategyMsg, model: BaseModel, listener: OperationListener<BaseModel>) {
+    fun sendRequest(key: StrategyKey, msg: StrategyMsg, model: BaseModel, listener: OperationListener<BaseModel>?) {
+        listener ?: throw NullPointerException("listener is null.")
         val strategy = strategyMap.get(key) ?: throw IllegalArgumentException("key was not correct")
         strategy.operationListener = listener
         when (msg) {
@@ -40,7 +41,8 @@ class StrategyContext {
         }
     }
 
-    suspend fun sendRequest(key: StrategyKey, msg: StrategyMsg, id: Int, listener: OperationListener<BaseModel>) {
+    suspend fun sendRequest(key: StrategyKey, msg: StrategyMsg, id: Int, listener: OperationListener<BaseModel>?) {
+        listener ?: throw NullPointerException("listener is null.")
         val strategy = strategyMap.get(key) ?: throw IllegalArgumentException("key was not correct")
         strategy.operationListener = listener
         when (msg) {
@@ -49,7 +51,8 @@ class StrategyContext {
         }
     }
 
-    suspend fun sendRequest(key: StrategyKey, msg: StrategyMsg, listener: OperationListener<BaseModel>) {
+    suspend fun sendRequest(key: StrategyKey, msg: StrategyMsg, listener: OperationListener<BaseModel>?) {
+        listener ?: throw NullPointerException("listener is null.")
         val strategy = strategyMap.get(key) ?: throw IllegalArgumentException("key was not correct")
         strategy.operationListener = listener
         when (msg) {

@@ -1,14 +1,20 @@
 package com.advance.emotionscanapp.domain.core.operation
 
-open class OperationState(
-    val listener: OperationListener<Any>?
-) {
+open class OperationState<T> {
 
-    private var _state: OperationState = OperationIdleState(null)
-    var state: OperationState = OperationIdleState(null)
+    private var _state: OperationState<T> = OperationIdleState<T>()
+    var state: OperationState<T> = OperationIdleState<T>()
         set(value) {
             field = value
             _state = value
+        }
+
+    private var _listener: OperationListener<T>? = null
+
+    var listener: OperationListener<T>? = null
+        set(value) {
+            field = value
+            listener = value
         }
 
     open fun onStart() {
