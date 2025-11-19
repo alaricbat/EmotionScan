@@ -1,12 +1,10 @@
 package com.advance.emotionscanapp.domain.core.operation
 
-class OperationIdleState<T>: OperationState<T>() {
+class OperationIdleState: OperationState() {
 
-    override fun onStart() {
+    override suspend fun onStart(operator: suspend() -> Unit) {
         try {
-            super.onStart()
-            listener ?: throw NullPointerException("listener is null.")
-            listener!!.onStart()
+            operator()
             state = OperationProcessingState()
             state.onProcessing()
         } catch (e: Exception) {

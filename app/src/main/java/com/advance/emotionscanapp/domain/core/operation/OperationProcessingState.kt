@@ -1,11 +1,9 @@
 package com.advance.emotionscanapp.domain.core.operation
 
-class OperationProcessingState<T>: OperationState<T>() {
+class OperationProcessingState: OperationState() {
 
     override fun onProcessing() {
         try {
-            listener ?: throw NullPointerException("listener is null.")
-            listener!!.onLoading()
             state = OperationSuccessState()
             state.onSuccess()
         } catch (e: Exception) {

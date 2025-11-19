@@ -1,23 +1,15 @@
 package com.advance.emotionscanapp.domain.core.operation
 
-open class OperationState<T> {
+open class OperationState {
 
-    private var _state: OperationState<T> = OperationIdleState<T>()
-    var state: OperationState<T> = OperationIdleState<T>()
+    private var _state: OperationState = OperationIdleState()
+    var state: OperationState = OperationIdleState()
         set(value) {
             field = value
             _state = value
         }
 
-    private var _listener: OperationListener<T>? = null
-
-    var listener: OperationListener<T>? = null
-        set(value) {
-            field = value
-            listener = value
-        }
-
-    open fun onStart() {
+    open suspend fun onStart(operator: suspend() -> Unit) {
         throw IllegalStateException("not correct state")
     }
 
