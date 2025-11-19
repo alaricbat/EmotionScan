@@ -1,21 +1,26 @@
 package com.advance.emotionscanapp.domain.usecase
 
-import com.advance.emotionscanapp.domain.model.User
-import com.advance.emotionscanapp.domain.usecase.strategy.DefaultUserStrategy
-import com.advance.emotionscanapp.domain.usecase.strategy.Strategy
-import javax.inject.Inject
+class UseCaseFactory: IUseCaseFactory {
 
-class UseCaseFactory @Inject constructor(
-    private val _userStrategy: Strategy<User>
-) {
-
-    val userStrategy: Strategy<User>
-        get() = _userStrategy
-
-    fun createGetUsersUseCase(): GetUsersUseCase {
-        return GetUsersUseCase(_userStrategy)
+    override fun createInsertUserUseCase(): InsertUserUseCase {
+        return InsertUserUseCase()
     }
 
-    fun createGetAboutInfoUseCase() = null
+    override fun createUpdateUserUseCase(): UpdateUserUseCase {
+        return UpdateUserUseCase()
+    }
+
+    override fun createDeleteUserUseCase(): DeleteUserUseCase {
+        return DeleteUserUseCase()
+    }
+
+    override fun createGetUserByIdUseCase(): GetUserByIdUseCase {
+        return GetUserByIdUseCase()
+    }
+
+    override fun createGetUsersUseCase(): GetUsersUseCase {
+        return GetUsersUseCase()
+    }
+
 
 }
