@@ -1,14 +1,14 @@
 package com.advance.emotionscanapp.domain.usecase
 
 import com.advance.emotionscanapp.domain.core.operation.OperationListener
+import com.advance.emotionscanapp.domain.model.AboutMe
 import com.advance.emotionscanapp.domain.model.BaseModel
-import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.usecase.strategy.StrategyContext
 
-class InsertAboutUseCase(): UseCase<User>() {
+class InsertAboutUseCase(): UseCase<AboutMe>() {
 
     override suspend fun execute(
-        params: User,
+        params: AboutMe,
         listener: OperationListener<BaseModel>
     ) {
         StrategyContext.getInstance().sendRequest(
@@ -21,10 +21,10 @@ class InsertAboutUseCase(): UseCase<User>() {
 
 }
 
-class UpdateAboutUseCase(): UseCase<User>() {
+class UpdateAboutUseCase(): UseCase<AboutMe>() {
 
     override suspend fun execute(
-        params: User,
+        params: AboutMe,
         listener: OperationListener<BaseModel>
     ) {
         StrategyContext.getInstance().sendRequest(
@@ -37,10 +37,10 @@ class UpdateAboutUseCase(): UseCase<User>() {
 
 }
 
-class DeleteAboutUseCase(): UseCase<User>() {
+class DeleteAboutUseCase(): UseCase<AboutMe>() {
 
     override suspend fun execute(
-        params: User,
+        params: AboutMe,
         listener: OperationListener<BaseModel>
     ) {
         StrategyContext.getInstance().sendRequest(

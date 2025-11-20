@@ -2,7 +2,7 @@ package com.advance.emotionscanapp.domain.core.operation
 
 class OperationSuccessState: OperationState() {
 
-    override fun onSuccess() {
+    override suspend fun onSuccess() {
         try {
             state = OperationCompletedState()
             state.onCompleted()

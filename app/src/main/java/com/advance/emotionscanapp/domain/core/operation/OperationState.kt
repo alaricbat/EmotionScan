@@ -13,19 +13,19 @@ open class OperationState {
         throw IllegalStateException("not correct state")
     }
 
-    open fun onSuccess() {
+    open suspend fun onSuccess() {
         throw IllegalStateException("not correct state")
     }
 
-    open fun onProcessing() {
+    open suspend fun onProcessing() {
         throw IllegalStateException("not correct state")
     }
 
-    open fun onError(e: Throwable) {
+    open suspend fun onError(e: Throwable) {
         throw IllegalStateException("not correct state")
     }
 
-    open fun onCompleted() {
+    open suspend fun onCompleted() {
         throw IllegalStateException("not correct state")
     }
 
