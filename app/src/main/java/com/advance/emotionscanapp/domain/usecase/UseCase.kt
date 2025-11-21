@@ -19,6 +19,7 @@ abstract class UseCase<in P> {
     protected open suspend fun execute(params: P, listener: OperationListener<BaseModel>) {
         throw IllegalStateException("called with uncorrected method.")
     }
+
     open val dispatcher: CoroutineDispatcher = Dispatchers.IO
 
     suspend operator fun invoke(params: P, listener: OperationListener<BaseModel>) {

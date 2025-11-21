@@ -1,10 +1,10 @@
 package com.advance.emotionscanapp.presentation.ui.home
 
+import com.advance.emotionscanapp.domain.core.operation.OperationListener
+import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.model.User
-import com.advance.emotionscanapp.domain.usecase.GetUserByIdUseCase
-import com.advance.emotionscanapp.domain.usecase.GetUsersUseCase
-import com.advance.emotionscanapp.domain.usecase.UseCaseFactory
-import com.advance.emotionscanapp.domain.usecase.strategy.CachedUserStrategy
+import com.advance.emotionscanapp.domain.usecase.factory.UseCaseFactoryProvider
+import com.advance.emotionscanapp.domain.usecase.factory.UseCaseType
 import com.advance.emotionscanapp.presentation.core.BaseViewModel
 import com.advance.emotionscanapp.presentation.core.ViewEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,13 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getUsersUseCase: GetUsersUseCase,
-    private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val useCaseFactory: UseCaseFactory
+    private val factoryProvider: UseCaseFactoryProvider
 ) : BaseViewModel<HomeIntent, HomeState, HomeEvent>() {
-
-    private var currentPage = 0
-    private var pageSize = 20
 
     private var allUsers = emptyList<User>()
 
@@ -26,12 +21,11 @@ class HomeViewModel @Inject constructor(
         _state.value = HomeState()
     }
 
-    override fun processIntent(intent: HomeIntent) {
+    override suspend fun processIntent(intent: HomeIntent) {
         when (intent) {
             is HomeIntent.LoadUsers -> loadUsers()
-            is HomeIntent.RefreshUsers -> refreshUsers()
             is HomeIntent.UserClick -> onUserClick(intent.user)
-            is HomeIntent.LoadMoreUsers -> loadMoreUsers()
+            is HomeIntent.InsertUser -> insertUser(intent.user)
             is HomeIntent.SearchUsers -> searchUsers(intent.query)
         }
     }
@@ -40,76 +34,93 @@ class HomeViewModel @Inject constructor(
         return HomeEvent.ShowError(throwable.message ?: "Unknown error occurred")
     }
 
-    private fun loadUsers() {
-        _state.value = _state.value?.copy(isLoading = true, error = null)
+    private suspend fun loadUsers() {
 
-        getUsersUseCase(Unit).execute(
-            onSuccess = { users ->
+        val useCase = factoryProvider.getFactory<User>(UseCaseType.UserFactory).createGetAllUseCase()
+        useCase(object : OperationListener<BaseModel> {
+            override fun onStart() {
                 _state.value = _state.value?.copy(
-                    isLoading = false,
-                    users = users,
-                    filteredUsers = users,
-                    hasMore = users.size >= pageSize
-                )
-            }, onError = { error ->
-                _state.value = _state.value?.copy(
-                    isLoading = false,
-                    error = error.message
+                    isStart = false,
+                    error = null
                 )
             }
-        )
+
+            override fun onLoading() {
+                _state.value = _state.value?.copy(
+                    isStart = false,
+                    isLoading = true
+                )
+            }
+
+            override fun onSuccessWithListData(t: List<BaseModel>) {
+                _state.value = _state.value?.copy(
+                    isLoading = false,
+                    users = t.map { baseModel -> baseModel as User }.toList()
+                )
+            }
+
+            override fun onError(throwable: Throwable) {
+                _state.value = _state.value?.copy(
+                    isStart = false,
+                    isLoading = false,
+                    isCompleted = false,
+                    error = throwable.message
+                )
+            }
+
+            override fun onCompleted() {
+                _state.value = _state.value?.copy(
+                    isStart = false,
+                    isLoading = false,
+                    isCompleted = true,
+                )
+            }
+
+        })
 
     }
 
-    private fun refreshUsers() {
-        _state.value = _state.value?.copy(isRefreshing = true, error = null)
-
-        val refreshUseCase = useCaseFactory.createGetUsersUseCase(
-            strategy = CachedUserStrategy(useCaseFactory.userRepository)
-        )
-
-        refreshUseCase(Unit).execute(
-            onSuccess = { users ->
+    private suspend fun insertUser(user: User) {
+        val useCase = factoryProvider.getFactory<User>(UseCaseType.UserFactory).createInsertUseCase()
+        useCase(user, object : OperationListener<BaseModel> {
+            override fun onStart() {
                 _state.value = _state.value?.copy(
-                    isRefreshing = false,
-                    users = users,
-                    filteredUsers = applySearchFilter(users, _state.value?. searchQuery ?: ""),
-                    hasMore = users.size >= pageSize
-                )
-            }, onError = { error ->
-                _state.value = _state.value?.copy(
-                    isRefreshing = false,
-                    error = error.message
+                    isStart = false,
+                    error = null
                 )
             }
-        )
 
-    }
-
-    private fun loadMoreUsers() {
-
-        if (_state.value?.isLoadingMore == true || _state.value?.hasMore == false) return
-
-        _state.value = _state.value?.copy(isLoadingMore = true)
-        currentPage++
-
-        getUsersUseCase(Unit).execute(
-            onSuccess = { newUsers ->
-                val updatedUsers = allUsers + newUsers
+            override fun onLoading() {
                 _state.value = _state.value?.copy(
-                    isLoadingMore = false,
-                    users = updatedUsers,
-                    filteredUsers = applySearchFilter(newUsers, _state.value?.searchQuery?:""),
-                    hasMore = newUsers.isNotEmpty()
-                )
-            }, onError = { error ->
-                currentPage--
-                _state.value = _state.value?.copy(
-                    isLoadingMore = false,
-                    error = "Failed to load more: ${error.message}"
+                    isStart = false,
+                    isLoading = true
                 )
             }
-        )
+
+            override fun onSuccess() {
+                _state.value = _state.value?.copy(
+                    isLoading = false
+                )
+            }
+
+            override fun onError(throwable: Throwable) {
+                _state.value = _state.value?.copy(
+                    isStart = false,
+                    isLoading = false,
+                    isCompleted = false,
+                    error = throwable.message
+                )
+            }
+
+            override fun onCompleted() {
+                _state.value = _state.value?.copy(
+                    isStart = false,
+                    isLoading = false,
+                    isCompleted = true,
+                )
+            }
+
+        })
     }
 
     private fun searchUsers(query: String) {
