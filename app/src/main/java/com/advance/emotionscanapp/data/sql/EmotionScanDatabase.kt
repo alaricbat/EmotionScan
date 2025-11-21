@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.advance.emotionscanapp.data.converter.Converter
 import com.advance.emotionscanapp.data.local.AboutEntity
 import com.advance.emotionscanapp.data.local.UserEntity
 
@@ -14,6 +16,9 @@ import com.advance.emotionscanapp.data.local.UserEntity
     entities = [UserEntity::class, AboutEntity::class],
     version = 1,
     exportSchema = false)
+@TypeConverters(
+    value = [Converter::class]
+)
 abstract class EmotionScanDatabase: RoomDatabase() {
 
     abstract fun userDao(): UserDao

@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-abstract class Strategy<T : BaseModel, in R: IRepository<T>> @Inject constructor(
+abstract class Strategy<T : BaseModel, in R: IRepository<T>> constructor(
     private val repository: R
 ) {
 

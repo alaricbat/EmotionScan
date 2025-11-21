@@ -1,6 +1,7 @@
 package com.advance.emotionscanapp.data.result
 
 abstract class BaseResultInfo(
+    @JvmField
     val resultCode: Int
 ){
 

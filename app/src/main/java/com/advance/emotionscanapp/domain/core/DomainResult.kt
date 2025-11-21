@@ -4,7 +4,7 @@ sealed class DomainResult<out T> {
 
     object Success: DomainResult<Nothing>()
 
-    data class SuccessWithData<out T>(val data: T) : DomainResult<T>()
+    data class SuccessWithData<out T>(@JvmField val data: T) : DomainResult<T>()
 
     data class Error(val exception: Throwable) : DomainResult<Nothing>()
 

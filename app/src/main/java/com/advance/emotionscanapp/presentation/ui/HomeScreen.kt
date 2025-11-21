@@ -37,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.advance.emotionscanapp.domain.model.User
@@ -68,14 +69,14 @@ fun HomeScreen (
 
     HomeContent(
         state = state,
-        onIntent = viewModel::processIntent
+//        onIntent = viewModel::processIntent
     )
 }
 
 @Composable
 private fun HomeContent(
     state: HomeState,
-    onIntent: (HomeIntent) -> Unit
+//    onIntent: (HomeIntent) -> Unit
 ) {
     val scaffoldState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
@@ -99,7 +100,7 @@ private fun HomeContent(
                     "            )"
             else -> UserListContent(
                 state = state,
-                onIntent = onIntent,
+//                onIntent = null,
                 modifier = Modifier.padding(padding)
             )
         }
@@ -110,18 +111,18 @@ private fun HomeContent(
 @Composable
 private fun UserListContent(
     state: HomeState,
-    onIntent: (HomeIntent) -> Unit,
+//    onIntent: (HomeIntent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val listState = rememberLazyListState()
 
     LaunchedEffect(listState) {
-        snapshotFlow { listState.layoutInfo.visibleItemsInfo }
-            .collect { visibleItems ->
-                if (visibleItems.isNotEmpty() &&
-                    visibleItems.last().index >= listState.layoutInfo.totalItemsCount - 5)
-                    onIntent(HomeIntent.LoadMoreUsers)
-            }
+//        snapshotFlow { listState.layoutInfo.visibleItemsInfo }
+//            .collect { visibleItems ->
+//                if (visibleItems.isNotEmpty() &&
+//                    visibleItems.last().index >= listState.layoutInfo.totalItemsCount - 5)
+//                    onIntent(HomeIntent.LoadMoreUsers)
+//            }
     }
 
     LazyColumn(
@@ -133,7 +134,7 @@ private fun UserListContent(
             UserItem(
                 user = user,
                 onClick = {
-                    onIntent(HomeIntent.UserClick(user))
+//                    onIntent(HomeIntent.UserClick(user))
                 }
             )
         }
@@ -203,4 +204,10 @@ private fun UserItem(user: User, onClick: () -> Unit) {
         }
     }
 
+}
+
+@Preview
+@Composable
+fun ShowHomeScreen() {
+    HomeScreen {  }
 }

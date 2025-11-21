@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class AboutDataSrcImpl @Inject constructor(): AboutDataSource {
     override fun getAboutInfo(): Single<AboutDto> {
-        return Single<AboutDto>
+        TODO("Not yet implemented")
     }
 
     override fun saveAboutInfo(aboutDto: AboutDto): Completable {
