@@ -8,9 +8,8 @@ import com.advance.emotionscanapp.domain.repository.IUserRepository
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.first
-import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(
+class UserRepositoryImpl(
     private val remoteDataSource: UserRemoteDataSource,
     private val localDataSource: IUserLocalDataSource,
 ): IUserRepository {

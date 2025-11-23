@@ -6,9 +6,8 @@ import com.advance.emotionscanapp.domain.model.AboutMe
 import com.advance.emotionscanapp.domain.model.SocialLink
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import javax.inject.Inject
 
-class AboutMapper @Inject constructor(
+class AboutMapper(
     private val gson: Gson
 ){
 

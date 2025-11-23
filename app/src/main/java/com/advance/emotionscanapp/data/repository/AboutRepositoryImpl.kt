@@ -6,9 +6,8 @@ import com.advance.emotionscanapp.domain.model.AboutMe
 import com.advance.emotionscanapp.domain.repository.IAboutRepository
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import javax.inject.Inject
 
-class AboutRepositoryImpl @Inject constructor(
+class AboutRepositoryImpl(
     private val dataSource: AboutDataSource,
     private val aboutMapper: AboutMapper
 ) : IAboutRepository {

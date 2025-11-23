@@ -7,11 +7,6 @@ import com.advance.emotionscanapp.data.mapper.AboutMapper
 import com.advance.emotionscanapp.data.mapper.UserMapper
 import com.advance.emotionscanapp.data.repository.UserRepositoryImpl
 import com.advance.emotionscanapp.domain.repository.IAboutRepository
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 //@Module
 //@InstallIn(SingletonComponent::class)

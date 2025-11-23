@@ -8,9 +8,8 @@ import com.advance.emotionscanapp.data.result.ResultInfoError
 import com.advance.emotionscanapp.data.result.ResultInfoSuccess
 import com.advance.emotionscanapp.data.result.SuccessCode
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
-class UserLocalDataSrcImpl @Inject constructor(
+class UserLocalDataSrcImpl(
     private val userDao: UserDao
 ): IUserLocalDataSource {
 

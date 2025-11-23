@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">EmotionScanApp</string>
+
+    <string name="str_home_screen_title">Emotional App</string>
+    <string name="str_home_screen_floating_btn_title">Add user button</string>
+    <string name="str_home_screen_center_btn">Center button</string>
+
 </resources>

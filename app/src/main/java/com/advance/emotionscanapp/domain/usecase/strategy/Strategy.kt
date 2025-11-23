@@ -5,9 +5,8 @@ import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
 
-abstract class Strategy<T : BaseModel, in R: IRepository<T>> constructor(
+abstract class Strategy<T : BaseModel, in R: IRepository<T>> (
     private val repository: R
 ) {
 

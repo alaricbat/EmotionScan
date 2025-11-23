@@ -7,11 +7,8 @@ import com.advance.emotionscanapp.domain.usecase.factory.UseCaseFactoryProvider
 import com.advance.emotionscanapp.domain.usecase.factory.UseCaseType
 import com.advance.emotionscanapp.presentation.core.BaseViewModel
 import com.advance.emotionscanapp.presentation.core.ViewEvent
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class HomeViewModel @Inject constructor(
+class HomeViewModel(
     private val factoryProvider: UseCaseFactoryProvider
 ) : BaseViewModel<HomeIntent, HomeState, HomeEvent>() {
 

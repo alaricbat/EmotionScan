@@ -3,10 +3,9 @@ package com.advance.emotionscanapp.data.mapper
 import com.advance.emotionscanapp.data.local.UserEntity
 import com.advance.emotionscanapp.data.remote.UserDto
 import com.advance.emotionscanapp.domain.model.User
-import javax.inject.Inject
 import kotlin.collections.emptyList
 
-class UserMapper @Inject constructor() {
+class UserMapper {
 
     fun mapToDomain(dto: UserDto): User = when(dto.role) {
         "admin" -> User.AdminUser(
