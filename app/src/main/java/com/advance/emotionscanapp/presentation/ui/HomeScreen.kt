@@ -25,10 +25,11 @@ import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.presentation.ui.home.HomeEvent
 import com.advance.emotionscanapp.presentation.ui.home.HomeState
 import com.advance.emotionscanapp.presentation.ui.home.HomeViewModel
+import com.advance.emotionscanapp.presentation.vm.diViewModel
 
 @Composable
 fun HomeScreen (
-//    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = diViewModel<HomeViewModel>(),
 //    onNavigationToDetail: (User) -> Unit
 ) {
     val context = LocalContext.current
