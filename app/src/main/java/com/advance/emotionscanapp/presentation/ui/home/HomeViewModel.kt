@@ -1,5 +1,6 @@
 package com.advance.emotionscanapp.presentation.ui.home
 
+import androidx.lifecycle.viewModelScope
 import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.model.User
@@ -7,6 +8,7 @@ import com.advance.emotionscanapp.domain.usecase.factory.UseCaseFactoryProvider
 import com.advance.emotionscanapp.domain.usecase.factory.UseCaseType
 import com.advance.emotionscanapp.presentation.core.BaseViewModel
 import com.advance.emotionscanapp.presentation.core.ViewEvent
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val factoryProvider: UseCaseFactoryProvider
@@ -18,12 +20,12 @@ class HomeViewModel(
         _state.value = HomeState()
     }
 
-    override suspend fun processIntent(intent: HomeIntent) {
+    override fun processIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.LoadUsers -> loadUsers()
-            is HomeIntent.UserClick -> onUserClick(intent.user)
-            is HomeIntent.InsertUser -> insertUser(intent.user)
-            is HomeIntent.SearchUsers -> searchUsers(intent.query)
+            is HomeIntent.LoadUsers -> viewModelScope.launch { loadUsers() }
+            is HomeIntent.UserClick -> viewModelScope.launch { onUserClick(intent.user) }
+            is HomeIntent.InsertUser -> viewModelScope.launch { insertUser(intent.user) }
+            is HomeIntent.SearchUsers -> viewModelScope.launch { searchUsers(intent.query) }
         }
     }
 

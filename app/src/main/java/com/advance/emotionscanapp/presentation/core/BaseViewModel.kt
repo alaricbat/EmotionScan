@@ -19,7 +19,7 @@ abstract class BaseViewModel<Intent: ViewIntent, State: ViewState, Event: ViewEv
     protected val _events: SingleLiveEvent<Event> = SingleLiveEvent()
     val events: LiveData<Event> get() = _events
 
-    abstract suspend fun processIntent(intent: Intent)
+    abstract fun processIntent(intent: Intent)
 
     protected abstract fun createErrorEvent(throwable: Throwable): ViewEvent
 
