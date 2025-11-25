@@ -3,12 +3,15 @@ package com.advance.emotionscanapp.domain.usecase.strategy
 import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
+import com.advance.emotionscanapp.log.Log
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 abstract class Strategy<T : BaseModel, in R: IRepository<T>> (
     private val repository: R
 ) {
+
+    private val TAG: String by lazy { this::class.java.simpleName }
 
     internal val compositeDisposable = CompositeDisposable()
 
@@ -21,19 +24,24 @@ abstract class Strategy<T : BaseModel, in R: IRepository<T>> (
         }
 
     fun insert(t: T) {
+        Log.funIn(TAG, "insert")
         compositeDisposable.add(
             repository.insert(t)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .doOnSubscribe {
+                    Log.i(TAG, "[insert]-[doOnSubscribe]")
                     _operationListener?.onLoading()
                 }
                 .subscribe({
+                    Log.i(TAG, "[insert]-[onSuccess]")
                     _operationListener?.onSuccess()
                 }, { throwable ->
+                    Log.i(TAG, "[insert]-[onError]")
                     _operationListener?.onError(throwable)
                 })
         )
+        Log.funIn(TAG, "insert")
     }
 
     fun update(t: T) {

@@ -7,10 +7,15 @@ import com.advance.emotionscanapp.domain.usecase.GetUsersUseCase
 import com.advance.emotionscanapp.domain.usecase.InsertUserUseCase
 import com.advance.emotionscanapp.domain.usecase.UpdateUserUseCase
 import com.advance.emotionscanapp.domain.usecase.UseCase
+import com.advance.emotionscanapp.log.Log
 
 class UserUseCaseFactory: IUseCaseFactory<User> {
 
+    private val TAG = UserUseCaseFactory::javaClass.name
+
     override fun createInsertUseCase(): UseCase<User> {
+        Log.funIn(TAG, "createInsertUseCase")
+        Log.funOut(TAG, "createInsertUseCase")
         return InsertUserUseCase()
     }
 

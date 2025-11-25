@@ -1,11 +1,13 @@
 package com.advance.emotionscanapp.presentation.ui
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
@@ -18,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,11 +29,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.advance.emotionscanapp.R
 import com.advance.emotionscanapp.domain.model.User
+import com.advance.emotionscanapp.log.Log
 import com.advance.emotionscanapp.presentation.ui.home.HomeEvent
 import com.advance.emotionscanapp.presentation.ui.home.HomeIntent
 import com.advance.emotionscanapp.presentation.ui.home.HomeState
 import com.advance.emotionscanapp.presentation.ui.home.HomeViewModel
 import com.advance.emotionscanapp.presentation.vm.diViewModel
+
+private val TAG = "HomeScreen"
 
 @Composable
 fun HomeScreen (
@@ -51,7 +55,7 @@ fun HomeScreen (
     }
 
     LaunchedEffect(Unit) {
-
+        //TODO update later for loading users.
     }
 
     HomeContent(
@@ -68,10 +72,8 @@ private fun HomeContent(
 ) {
 
     var tfName by remember { mutableStateOf("") }
-    var tfEmail by remember { mutableStateOf("") }
 
-    val scaffoldState = rememberScrollState()
-    val coroutineScope = rememberCoroutineScope()
+    var tfEmail by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -89,9 +91,7 @@ private fun HomeContent(
 
                 }
             ) {
-                Text(
-                    stringResource(R.string.str_home_screen_floating_btn_title)
-                )
+                //TODO update later
             }
         }
     ) { padding ->
@@ -111,7 +111,8 @@ private fun HomeContent(
                 },
                 label = {
                     Text(stringResource(R.string.str_home_screen_user_name_text))
-                }
+                },
+                singleLine = true
             )
 
             TextField(
@@ -122,13 +123,18 @@ private fun HomeContent(
                 },
                 label = {
                     Text(stringResource(R.string.str_home_screen_email_text))
-                }
+                },
+                singleLine = true
             )
 
             Button(
                 onClick = {
+                    Log.funIn(TAG, "AddUserBtn.onClick")
                     val user = User.RegularUser(1, tfName, tfEmail)
                     onIntent(HomeIntent.InsertUser(user))
+                    tfName = ""
+                    tfEmail = ""
+                    Log.funOut(TAG, "AddUserBtn.onClick")
                 }
             ) {
                 Text(
@@ -136,8 +142,18 @@ private fun HomeContent(
                 )
             }
         }
+
+        if (state.isLoading) {
+            Box (
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
         }
+
     }
+}
 
 @Preview
 @Composable

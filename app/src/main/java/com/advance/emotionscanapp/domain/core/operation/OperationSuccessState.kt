@@ -5,10 +5,10 @@ class OperationSuccessState: OperationState() {
     override suspend fun onSuccess() {
         try {
             state = OperationCompletedState()
-            state.onCompleted()
+            state!!.onCompleted()
         } catch (e: Exception) {
             state = OperationErrorState()
-            state.onError(e)
+            state?.onError(e)
         }
     }
 

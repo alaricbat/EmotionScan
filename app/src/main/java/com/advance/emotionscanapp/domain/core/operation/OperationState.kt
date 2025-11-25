@@ -2,11 +2,11 @@ package com.advance.emotionscanapp.domain.core.operation
 
 open class OperationState {
 
-    private var _state: OperationState = OperationIdleState()
-    var state: OperationState = OperationIdleState()
+    private lateinit var _state: OperationState
+    var state: OperationState? = null
         set(value) {
             field = value
-            _state = value
+            _state = value!!
         }
 
     open suspend fun onStart(operator: suspend() -> Unit) {

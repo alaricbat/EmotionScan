@@ -3,8 +3,11 @@ package com.advance.emotionscanapp.domain.usecase.strategy
 import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
+import com.advance.emotionscanapp.log.Log
 
 class StrategyContext {
+
+    private val TAG = StrategyContext::javaClass.name
 
     private val strategyMap = hashMapOf<StrategyKey, Strategy<BaseModel, IRepository<BaseModel>>>()
 
@@ -30,6 +33,7 @@ class StrategyContext {
     }
 
     fun sendRequest(key: StrategyKey, msg: StrategyMsg, model: BaseModel, listener: OperationListener<BaseModel>?) {
+        Log.funIn(TAG, "sendRequest")
         listener ?: throw NullPointerException("listener is null.")
         val strategy = strategyMap.get(key) ?: throw IllegalArgumentException("key was not correct")
         strategy.operationListener = listener
@@ -39,6 +43,7 @@ class StrategyContext {
             StrategyMsg.STRATEGY_MSG_DELETE -> strategy.delete(model)
             else -> throw IllegalArgumentException("msg was not correct.")
         }
+        Log.funOut(TAG, "sendRequest")
     }
 
     suspend fun sendRequest(key: StrategyKey, msg: StrategyMsg, id: Int, listener: OperationListener<BaseModel>?) {

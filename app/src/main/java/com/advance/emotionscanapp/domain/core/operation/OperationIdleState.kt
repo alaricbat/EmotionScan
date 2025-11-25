@@ -6,10 +6,10 @@ class OperationIdleState: OperationState() {
         try {
             operator()
             state = OperationProcessingState()
-            state.onProcessing()
+            state!!.onProcessing()
         } catch (e: Exception) {
             state = OperationErrorState()
-            state.onError(e)
+            state?.onError(e)
         }
     }
 

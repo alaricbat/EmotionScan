@@ -4,19 +4,24 @@ import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.usecase.strategy.StrategyContext
+import com.advance.emotionscanapp.log.Log
 
 class InsertUserUseCase(): UseCase<User>() {
+
+    private val TAG = InsertUserUseCase::javaClass.name
 
     override suspend fun execute(
         params: User,
         listener: OperationListener<BaseModel>
     ) {
+        Log.funIn(TAG, "execute")
         StrategyContext.getInstance().sendRequest(
             StrategyContext.StrategyKey.STRATEGY_USER,
             StrategyContext.StrategyMsg.STRATEGY_MSG_INSERT,
             params,
             listener
         )
+        Log.funOut(TAG, "execute")
     }
 
 }

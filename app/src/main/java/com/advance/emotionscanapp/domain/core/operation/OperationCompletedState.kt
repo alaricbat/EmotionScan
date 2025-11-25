@@ -7,7 +7,7 @@ class OperationCompletedState: OperationState() {
             state = OperationIdleState()
         } catch (e: Exception) {
             state = OperationErrorState()
-            state.onError(e)
+            state?.onError(e)
         }
     }
 
