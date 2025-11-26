@@ -15,7 +15,9 @@ class HomeViewModel(
     private val factoryProvider: UseCaseFactoryProvider
 ) : BaseViewModel<HomeIntent, HomeState, HomeEvent>() {
 
-    private val TAG = HomeViewModel::javaClass.name
+    companion object {
+        private val TAG = HomeViewModel::javaClass.name
+    }
 
     private var allUsers = emptyList<User>()
 
@@ -53,41 +55,52 @@ class HomeViewModel(
         val useCase = factoryProvider.getFactory<User>(UseCaseType.UserFactory).createGetAllUseCase()
         useCase(object : OperationListener<BaseModel> {
             override fun onStart() {
+                Log.funIn(TAG, "onStart")
                 _state.value = _state.value?.copy(
                     isStart = false,
                     error = null
                 )
+                Log.funOut(TAG, "onStart")
             }
 
             override fun onLoading() {
+                Log.funIn(TAG, "onLoading")
                 _state.value = _state.value?.copy(
                     isStart = false,
                     isLoading = true
                 )
+                Log.funOut(TAG, "onLoading")
             }
 
             override fun onSuccessWithListData(t: List<BaseModel>) {
+                Log.funIn(TAG, "onSuccessWithListData")
                 _state.value = _state.value?.copy(
                     isLoading = false,
                     users = t.map { baseModel -> baseModel as User }.toList()
                 )
+                Log.funOut(TAG, "onSuccessWithListData")
             }
 
             override fun onError(throwable: Throwable) {
+                Log.funIn(TAG, "onError")
                 _state.value = _state.value?.copy(
                     isStart = false,
                     isLoading = false,
                     isCompleted = false,
                     error = throwable.message
                 )
+                _events.postValue(createErrorEvent(throwable) as HomeEvent?)
+                Log.funOut(TAG, "onError")
             }
 
             override fun onCompleted() {
+                Log.funIn(TAG, "onCompleted")
                 _state.value = _state.value?.copy(
                     isStart = false,
                     isLoading = false,
                     isCompleted = true,
                 )
+                Log.funOut(TAG, "onCompleted")
             }
 
         })
@@ -132,6 +145,7 @@ class HomeViewModel(
                     isCompleted = false,
                     error = throwable.message
                 ))
+                _events.postValue(createErrorEvent(throwable) as HomeEvent?)
                 Log.funOut(TAG, "[insertUser] - [onError]")
             }
 

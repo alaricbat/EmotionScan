@@ -36,7 +36,7 @@ import com.advance.emotionscanapp.presentation.ui.home.HomeState
 import com.advance.emotionscanapp.presentation.ui.home.HomeViewModel
 import com.advance.emotionscanapp.presentation.vm.diViewModel
 
-private val TAG = "HomeScreen"
+private const val TAG = "HomeScreen"
 
 @Composable
 fun HomeScreen (
@@ -52,10 +52,6 @@ fun HomeScreen (
             is HomeEvent.NavigateToUserDetail -> onNavigationToDetail(event.user)
             is HomeEvent.ShowError -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
         }
-    }
-
-    LaunchedEffect(Unit) {
-        //TODO update later for loading users.
     }
 
     HomeContent(
