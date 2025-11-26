@@ -2,6 +2,13 @@ package com.advance.emotionscanapp.domain.core.operation
 
 open class OperationState {
 
+    private lateinit var _listener: OperationListener<*>
+    var listener: OperationListener<*>? = null
+        set(value) {
+            field = value
+            _listener = value!!
+        }
+
     private lateinit var _state: OperationState
     var state: OperationState? = null
         set(value) {

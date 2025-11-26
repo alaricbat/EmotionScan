@@ -8,8 +8,6 @@ class MainApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val userStrategy = DefaultUserStrategy()
-
         StrategyContext.getInstance().init()
     }
 }

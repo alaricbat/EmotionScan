@@ -11,7 +11,9 @@ import kotlinx.coroutines.withContext
 
 abstract class UseCase<in P> {
 
-    private val TAG: String by lazy { this::class.java.simpleName }
+    companion object {
+        private val TAG: String by lazy { this::class.java.simpleName }
+    }
 
     private var operation = OperationIdleState()
 
@@ -28,14 +30,18 @@ abstract class UseCase<in P> {
     suspend operator fun invoke(params: P, listener: OperationListener<BaseModel>) {
         Log.funIn(TAG, "invoke")
         withContext(dispatcher) {
-                operation.onStart({ execute(params, listener) })
+            operation.listener = listener
+            operation.onStart {
+                Log.funIn(TAG, "[invoke]-[onStart]")
+                execute(params, listener)
+            }
         }
         Log.funOut(TAG, "invoke")
     }
 
     suspend operator fun invoke(listener: OperationListener<BaseModel>) {
         withContext(dispatcher) {
-                operation.onStart({ execute(listener) })
+                operation.onStart { execute(listener) }
         }
     }
 

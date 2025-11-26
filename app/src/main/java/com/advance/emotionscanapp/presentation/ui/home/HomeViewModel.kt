@@ -99,50 +99,50 @@ class HomeViewModel(
         val useCase = factoryProvider.getFactory<User>(UseCaseType.UserFactory).createInsertUseCase()
         useCase(user, object : OperationListener<BaseModel> {
             override fun onStart() {
-                Log.funIn(TAG, "onStart")
-                _state.value = _state.value?.copy(
-                    isStart = false,
+                Log.funIn(TAG, "[insertUser] - [onStart]")
+                _state.postValue(_state.value?.copy(
+                    isStart = true,
                     error = null
-                )
-                Log.funOut(TAG, "onStart")
+                ))
+                Log.funOut(TAG, "[insertUser] - [onStart]")
             }
 
             override fun onLoading() {
-                Log.funIn(TAG, "onLoading")
-                _state.value = _state.value?.copy(
+                Log.funIn(TAG, "[insertUser] - [onLoading]")
+                _state.postValue(_state.value?.copy(
                     isStart = false,
                     isLoading = true
-                )
-                Log.funOut(TAG, "onLoading")
+                ))
+                Log.funOut(TAG, "[insertUser] - [onLoading]")
             }
 
             override fun onSuccess() {
-                Log.funIn(TAG, "onSuccess")
-                _state.value = _state.value?.copy(
+                Log.funIn(TAG, "[insertUser] - [onSuccess]")
+                _state.postValue(_state.value?.copy(
                     isLoading = false
-                )
-                Log.funOut(TAG, "onSuccess")
+                ))
+                Log.funOut(TAG, "[insertUser] - [onSuccess]")
             }
 
             override fun onError(throwable: Throwable) {
-                Log.funIn(TAG, "onError")
-                _state.value = _state.value?.copy(
+                Log.funIn(TAG, "[insertUser] - [onError]")
+                _state.postValue(_state.value?.copy(
                     isStart = false,
                     isLoading = false,
                     isCompleted = false,
                     error = throwable.message
-                )
-                Log.funOut(TAG, "onError")
+                ))
+                Log.funOut(TAG, "[insertUser] - [onError]")
             }
 
             override fun onCompleted() {
-                Log.funIn(TAG, "onCompleted")
-                _state.value = _state.value?.copy(
+                Log.funIn(TAG, "[insertUser] - [onCompleted]")
+                _state.postValue(_state.value?.copy(
                     isStart = false,
                     isLoading = false,
                     isCompleted = true,
-                )
-                Log.funIn(TAG, "onCompleted")
+                ))
+                Log.funIn(TAG, "[onCompleted]")
             }
 
         })

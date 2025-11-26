@@ -8,7 +8,9 @@ import com.advance.emotionscanapp.log.Log
 
 class InsertUserUseCase(): UseCase<User>() {
 
-    private val TAG = InsertUserUseCase::javaClass.name
+    companion object {
+        private val TAG = InsertUserUseCase::javaClass.name
+    }
 
     override suspend fun execute(
         params: User,
