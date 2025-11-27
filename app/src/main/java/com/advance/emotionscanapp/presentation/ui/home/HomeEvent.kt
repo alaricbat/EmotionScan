@@ -7,6 +7,6 @@ sealed class HomeEvent : ViewEvent {
 
     data class NavigateToUserDetail(val user: User) : HomeEvent()
 
-    data class ShowError(val message: String) : HomeEvent()
+    data class ShowError(val message: String, val id: Long = System.currentTimeMillis()) : HomeEvent()
 
 }

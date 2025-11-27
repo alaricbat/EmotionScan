@@ -48,10 +48,12 @@ fun HomeScreen (
     val state by viewModel.state.observeAsState(HomeState())
 
     viewModel.events.observeAsState().value?.let { event ->
+        Log.funIn(TAG, "[events.observeAsState()]-[onChange]")
         when (event) {
             is HomeEvent.NavigateToUserDetail -> onNavigationToDetail(event.user)
             is HomeEvent.ShowError -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
         }
+        Log.funOut(TAG, "[events.observeAsState()]-[onChange]")
     }
 
     HomeContent(

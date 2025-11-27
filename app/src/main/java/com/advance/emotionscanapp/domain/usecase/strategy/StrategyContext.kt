@@ -7,11 +7,11 @@ import com.advance.emotionscanapp.log.Log
 
 class StrategyContext {
 
-    private val TAG = StrategyContext::javaClass.name
-
     private val strategyMap = hashMapOf<StrategyKey, Strategy<BaseModel, IRepository<BaseModel>>>()
 
     companion object {
+
+        private val TAG = StrategyContext::javaClass.name
 
         @Volatile
         private var instance: StrategyContext? = null

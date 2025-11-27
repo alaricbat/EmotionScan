@@ -17,6 +17,7 @@ class HomeViewModel(
 
     companion object {
         private val TAG = HomeViewModel::javaClass.name
+        private const val STR_UNKNOWN_ERR = "Unknown error occurred"
     }
 
     private var allUsers = emptyList<User>()
@@ -47,7 +48,7 @@ class HomeViewModel(
     }
 
     override fun createErrorEvent(throwable: Throwable): ViewEvent {
-        return HomeEvent.ShowError(throwable.message ?: "Unknown error occurred")
+        return HomeEvent.ShowError(throwable.message ?: STR_UNKNOWN_ERR)
     }
 
     private suspend fun loadUsers() {

@@ -14,7 +14,6 @@ class OperationErrorState(listener: OperationListener<*>): OperationState() {
 
     override suspend fun onError(e: Throwable) {
         Log.funIn(TAG, "onError")
-        Log.e(TAG, e.message!!)
         listener!!.onError(e)
         state = OperationIdleState()
         Log.funOut(TAG, "onError")
