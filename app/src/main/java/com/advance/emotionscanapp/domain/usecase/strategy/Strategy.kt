@@ -7,11 +7,13 @@ import com.advance.emotionscanapp.log.Log
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-abstract class Strategy<T : BaseModel, in R: IRepository<T>> (
+abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
     private val repository: R
 ) {
 
-    private val TAG: String by lazy { this::class.java.simpleName }
+    companion object {
+        private val TAG: String by lazy { this::class.java.simpleName }
+    }
 
     internal val compositeDisposable = CompositeDisposable()
 

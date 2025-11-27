@@ -7,10 +7,11 @@ import com.advance.emotionscanapp.data.result.ErrorCode
 import com.advance.emotionscanapp.data.result.ResultInfoError
 import com.advance.emotionscanapp.data.result.ResultInfoSuccess
 import com.advance.emotionscanapp.data.result.SuccessCode
+import com.advance.emotionscanapp.di.DIContainer
 import kotlinx.coroutines.flow.Flow
 
 class UserLocalDataSrcImpl(
-    private val userDao: UserDao
+    private val userDao: UserDao = DIContainer.inject<UserDao>()
 ): IUserLocalDataSource {
 
     override fun insert(user: UserEntity): DbResult<Nothing?> {

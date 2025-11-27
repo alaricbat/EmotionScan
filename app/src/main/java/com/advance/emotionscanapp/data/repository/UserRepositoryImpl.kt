@@ -1,7 +1,8 @@
 package com.advance.emotionscanapp.data.repository
 
 import com.advance.emotionscanapp.data.datasource.local.IUserLocalDataSource
-import com.advance.emotionscanapp.data.datasource.remote.UserRemoteDataSource
+import com.advance.emotionscanapp.data.datasource.local.UserLocalDataSrcImpl
+import com.advance.emotionscanapp.data.datasource.remote.IUserRemoteDataSource
 import com.advance.emotionscanapp.data.mapper.UserMapper
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.repository.IUserRepository
@@ -10,8 +11,8 @@ import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.first
 
 class UserRepositoryImpl(
-    private val remoteDataSource: UserRemoteDataSource,
-    private val localDataSource: IUserLocalDataSource,
+    private val remoteDataSource: IUserRemoteDataSource?,
+    private val localDataSource: IUserLocalDataSource = UserLocalDataSrcImpl(),
 ): IUserRepository {
 
     private val userMapper: UserMapper = UserMapper()

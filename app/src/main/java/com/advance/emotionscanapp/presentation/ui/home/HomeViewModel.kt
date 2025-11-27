@@ -157,7 +157,7 @@ class HomeViewModel(
                     isLoading = false,
                     isCompleted = true,
                 ))
-                Log.funIn(TAG, "[onCompleted]")
+                Log.funOut(TAG, "[insertUser] - [onCompleted]")
             }
 
         })
