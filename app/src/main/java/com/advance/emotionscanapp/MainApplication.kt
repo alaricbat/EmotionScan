@@ -1,13 +1,13 @@
 package com.advance.emotionscanapp
 
 import android.app.Application
-import com.advance.emotionscanapp.di.DatabaseModule
+import com.advance.emotionscanapp.uil.di.DatabaseModule
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
 import com.advance.emotionscanapp.domain.usecase.strategy.DefaultUserStrategy
 import com.advance.emotionscanapp.domain.usecase.strategy.Strategy
 import com.advance.emotionscanapp.domain.usecase.strategy.StrategyContext
-import com.advance.emotionscanapp.log.Log
+import com.advance.emotionscanapp.uil.log.Log
 
 class MainApplication: Application() {
 

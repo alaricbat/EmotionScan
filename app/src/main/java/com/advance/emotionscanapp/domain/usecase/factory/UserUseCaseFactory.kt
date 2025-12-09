@@ -7,7 +7,7 @@ import com.advance.emotionscanapp.domain.usecase.GetUsersUseCase
 import com.advance.emotionscanapp.domain.usecase.InsertUserUseCase
 import com.advance.emotionscanapp.domain.usecase.UpdateUserUseCase
 import com.advance.emotionscanapp.domain.usecase.UseCase
-import com.advance.emotionscanapp.log.Log
+import com.advance.emotionscanapp.uil.log.Log
 
 class UserUseCaseFactory: IUseCaseFactory<User> {
 

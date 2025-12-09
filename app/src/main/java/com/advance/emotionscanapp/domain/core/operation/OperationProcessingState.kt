@@ -1,6 +1,6 @@
 package com.advance.emotionscanapp.domain.core.operation
 
-import com.advance.emotionscanapp.log.Log
+import com.advance.emotionscanapp.uil.log.Log
 
 class OperationProcessingState: OperationState() {
 

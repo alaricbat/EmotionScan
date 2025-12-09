@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.log
+package com.advance.emotionscanapp.uil.log
 
 import android.util.Log
 import java.time.LocalDate

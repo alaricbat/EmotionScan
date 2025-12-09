@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.advance.emotionscanapp.R
 import com.advance.emotionscanapp.domain.model.User
-import com.advance.emotionscanapp.log.Log
+import com.advance.emotionscanapp.uil.log.Log
 import com.advance.emotionscanapp.presentation.ui.home.HomeEvent
 import com.advance.emotionscanapp.presentation.ui.home.HomeIntent
 import com.advance.emotionscanapp.presentation.ui.home.HomeState

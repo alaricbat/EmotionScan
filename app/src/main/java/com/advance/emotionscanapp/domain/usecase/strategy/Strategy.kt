@@ -3,7 +3,7 @@ package com.advance.emotionscanapp.domain.usecase.strategy
 import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
-import com.advance.emotionscanapp.log.Log
+import com.advance.emotionscanapp.uil.log.Log
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 

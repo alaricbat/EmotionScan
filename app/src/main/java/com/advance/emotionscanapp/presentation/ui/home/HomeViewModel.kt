@@ -6,7 +6,7 @@ import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.usecase.factory.UseCaseFactoryProvider
 import com.advance.emotionscanapp.domain.usecase.factory.UseCaseType
-import com.advance.emotionscanapp.log.Log
+import com.advance.emotionscanapp.uil.log.Log
 import com.advance.emotionscanapp.presentation.core.BaseViewModel
 import com.advance.emotionscanapp.presentation.core.ViewEvent
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.di
+package com.advance.emotionscanapp.uil.di
 
 
 object DIContainer {

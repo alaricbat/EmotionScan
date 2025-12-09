@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.di
+package com.advance.emotionscanapp.uil.di
 
 import android.content.Context
 import com.advance.emotionscanapp.data.sql.EmotionScanDatabase

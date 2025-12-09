@@ -1,7 +1,7 @@
 package com.advance.emotionscanapp.presentation.vm
 
 import androidx.lifecycle.ViewModel
-import com.advance.emotionscanapp.di.ServiceLocator
+import com.advance.emotionscanapp.uil.di.ServiceLocator
 import com.advance.emotionscanapp.presentation.ui.home.HomeViewModel
 
 @Suppress("UNCHECKED_CAST")

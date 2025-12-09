@@ -4,7 +4,7 @@ import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.usecase.strategy.StrategyContext
-import com.advance.emotionscanapp.log.Log
+import com.advance.emotionscanapp.uil.log.Log
 
 class InsertUserUseCase(): UseCase<User>() {
 

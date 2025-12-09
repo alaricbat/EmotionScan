@@ -3,7 +3,7 @@ package com.advance.emotionscanapp.domain.usecase
 import com.advance.emotionscanapp.domain.core.operation.OperationIdleState
 import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
-import com.advance.emotionscanapp.log.Log
+import com.advance.emotionscanapp.uil.log.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
