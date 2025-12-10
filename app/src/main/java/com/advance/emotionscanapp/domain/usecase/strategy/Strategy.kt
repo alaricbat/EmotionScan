@@ -4,8 +4,8 @@ import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
 import com.advance.emotionscanapp.uil.log.Log
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.advance.emotionscanapp.uil.rx.RxTaskManager
+import com.advance.emotionscanapp.uil.rx.RxTaskManager.TaskCallback
 
 abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
     private val repository: R
@@ -14,8 +14,6 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
     companion object {
         private val TAG: String by lazy { this::class.java.simpleName }
     }
-
-    internal val compositeDisposable = CompositeDisposable()
 
     private var _operationListener: OperationListener<T>? = null
 
@@ -27,91 +25,142 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
 
     fun insert(t: T) {
         Log.funIn(TAG, "insert")
-        compositeDisposable.add(
-            repository.insert(t)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnSubscribe {
-                    Log.i(TAG, "[insert]-[doOnSubscribe]")
+        RxTaskManager.execSingle(
+            {
+                repository.insert(t)
+            }, object : TaskCallback<Unit> {
+                override fun onSubscribe() {
                     _operationListener?.onLoading()
                 }
-                .subscribe({
-                    Log.i(TAG, "[insert]-[onSuccess]")
+
+                override fun onSuccess() {
                     _operationListener?.onSuccess()
-                }, { throwable ->
-                    Log.i(TAG, "[insert]-[onError]")
-                    _operationListener?.onError(throwable)
-                })
+                }
+
+                override fun onError(e: Throwable) {
+                    _operationListener?.onError(e)
+                }
+
+                override fun onComplete() {
+                    Log.d(TAG, "insert completed.")
+                }
+
+            }
         )
         Log.funIn(TAG, "insert")
     }
 
     fun update(t: T) {
-        compositeDisposable.add(
-            repository.update(t)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnSubscribe {
+        Log.funIn(TAG, "update")
+
+        RxTaskManager.execSingle(
+            {
+                repository.update(t)
+            }, object : TaskCallback<Unit> {
+                override fun onSubscribe() {
                     _operationListener?.onLoading()
                 }
-                .subscribe({
+
+                override fun onSuccess() {
                     _operationListener?.onSuccess()
-                }, { throwable ->
-                    _operationListener?.onError(throwable)
-                })
+                }
+
+                override fun onError(e: Throwable) {
+                    _operationListener?.onError(e)
+                }
+
+                override fun onComplete() {
+                    Log.d(TAG, "insert completed.")
+                }
+
+            }
         )
+        Log.funIn(TAG, "update")
     }
 
     fun delete(t: T) {
-        compositeDisposable.add(
-            repository.delete(t)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnSubscribe {
+        Log.funIn(TAG, "delete")
+        RxTaskManager.execSingle(
+            {
+                repository.delete(t)
+            }, object : TaskCallback<Unit> {
+                override fun onSubscribe() {
                     _operationListener?.onLoading()
                 }
-                .subscribe({
+
+                override fun onSuccess() {
                     _operationListener?.onSuccess()
-                }, { throwable ->
-                    _operationListener?.onError(throwable)
-                })
+                }
+
+                override fun onError(e: Throwable) {
+                    _operationListener?.onError(e)
+                }
+
+                override fun onComplete() {
+                    Log.d(TAG, "insert completed.")
+                }
+
+            }
         )
+        Log.funIn(TAG, "delete")
     }
 
-    suspend fun getById(id: Int) {
-        compositeDisposable.add(
-            repository.getById(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnSubscribe {
+    fun getById(id: Int) {
+        Log.funIn(TAG, "getById")
+        RxTaskManager.execSingle(
+            {
+                repository.getById(id)
+            }, object : TaskCallback<T> {
+                override fun onSubscribe() {
                     _operationListener?.onLoading()
                 }
-                .subscribe({ user ->
-                    _operationListener?.onSuccessWithSingleData(user)
-                }, { throwable ->
-                    _operationListener?.onError(throwable)
-                })
+
+                override fun onSuccess(t: T) {
+                    _operationListener?.onSuccessWithSingleData(t)
+                }
+
+                override fun onError(e: Throwable) {
+                    _operationListener?.onError(e)
+                }
+
+                override fun onComplete() {
+                    Log.d(TAG, "insert completed.")
+                }
+
+            }
         )
+        Log.funIn(TAG, "getById")
     }
 
-    suspend fun getAll() {
-        compositeDisposable.add(
-            repository.getAll()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .doOnSubscribe {
+    fun getAll() {
+        Log.funIn(TAG, "getById")
+        RxTaskManager.execSingle(
+            {
+                repository.getAll()
+            }, object : TaskCallback<List<T>> {
+                override fun onSubscribe() {
                     _operationListener?.onLoading()
                 }
-                .subscribe({ users ->
-                    _operationListener?.onSuccessWithListData(users)
-                }, { throwable ->
-                    _operationListener?.onError(throwable)
-                })
+
+                override fun onSuccess(t: List<T>) {
+                    _operationListener?.onSuccessWithListData(t)
+                }
+
+                override fun onError(e: Throwable) {
+                    _operationListener?.onError(e)
+                }
+
+                override fun onComplete() {
+                    Log.d(TAG, "insert completed.")
+                }
+
+            }
         )
+        Log.funIn(TAG, "getById")
     }
 
     fun release() {
-        compositeDisposable.clear()
+        RxTaskManager.clear()
         _operationListener = null
         operationListener = null
     }

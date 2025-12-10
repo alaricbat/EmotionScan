@@ -3,12 +3,11 @@ package com.advance.emotionscanapp.data.repository
 import com.advance.emotionscanapp.data.datasource.local.IUserLocalDataSource
 import com.advance.emotionscanapp.data.datasource.local.UserLocalDataSrcImpl
 import com.advance.emotionscanapp.data.datasource.remote.IUserRemoteDataSource
+import com.advance.emotionscanapp.data.extension.RepositoryException
+import com.advance.emotionscanapp.data.extension.firstBlocking
 import com.advance.emotionscanapp.data.mapper.UserMapper
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.repository.IUserRepository
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
-import kotlinx.coroutines.flow.first
 
 class UserRepositoryImpl(
     private val remoteDataSource: IUserRemoteDataSource?,
@@ -17,72 +16,52 @@ class UserRepositoryImpl(
 
     private val userMapper: UserMapper = UserMapper()
 
-    override fun insert(t: User): Completable {
-        return Completable.create { emitter ->
-            try {
-                val userEntity = userMapper.mapToEntity(t)
-                val resultDb = localDataSource.insert(userEntity)
-                if (!resultDb.getResultInfo().isSuccess()) {
-                    throw Exception(resultDb.getResultInfo().exMsg)
-                }
-                emitter.onComplete()
-            } catch (e: Exception) {
-                emitter.onError(e)
-            }
+    override fun insert(t: User) {
+        val userEntity = userMapper.mapToEntity(t)
+        val resultDb = localDataSource.insert(userEntity)
+        if (!resultDb.getResultInfo().isSuccess()) {
+            throw RepositoryException(resultDb.getResultInfo().exMsg)
         }
     }
 
-    override fun update(t: User): Completable {
-        return Completable.create { emitter ->
-            try {
-                val userEntity = userMapper.mapToEntity(t)
-                val resultDb = localDataSource.update(userEntity)
-                if (!resultDb.getResultInfo().isSuccess()) {
-                    throw Exception(resultDb.getResultInfo().exMsg)
-                }
-                emitter.onComplete()
-            } catch (e: Exception) {
-                emitter.onError(e)
-            }
+    override fun update(t: User) {
+        val userEntity = userMapper.mapToEntity(t)
+        val resultDb = localDataSource.update(userEntity)
+        if (!resultDb.getResultInfo().isSuccess()) {
+            throw RepositoryException(resultDb.getResultInfo().exMsg)
         }
     }
 
-    override fun delete(t: User): Completable {
-        return Completable.create { emitter ->
-            try {
-                val userEntity = userMapper.mapToEntity(t)
-                val resultDb = localDataSource.delete(userEntity)
-                if (!resultDb.getResultInfo().isSuccess()) {
-                    throw Exception(resultDb.getResultInfo().exMsg)
-                }
-                emitter.onComplete()
-            } catch (e: Exception) {
-                emitter.onError(e)
-            }
+    override fun delete(t: User) {
+        val userEntity = userMapper.mapToEntity(t)
+        val resultDb = localDataSource.delete(userEntity)
+        if (!resultDb.getResultInfo().isSuccess()) {
+            throw RepositoryException(resultDb.getResultInfo().exMsg)
         }
     }
 
-    override suspend fun getById(id: Int): Single<User> {
+    override fun getById(id: Int): User {
         val resultDb = localDataSource.getUserById(id)
         if (resultDb.getResultInfo().isSuccess()) {
-            val user = resultDb.getData()!!.first().let {entity ->
+            val user = resultDb.getData()!!.firstBlocking().let { entity ->
                 userMapper.mapToDomain(entity)
             }
-            return Single.just(user)
+            return user
         } else {
-            return Single.error { Throwable(resultDb.getResultInfo().exMsg) }
+            throw RepositoryException(resultDb.getResultInfo().exMsg)
         }
     }
 
-    override suspend fun getAll(): Single<List<User>> {
+    override fun getAll(): List<User> {
         val resultDb = localDataSource.getAll()
         if (resultDb.getResultInfo().isSuccess()) {
-            val users = resultDb.getData()!!.first().map { entity ->
+            val users = resultDb.getData()!!.firstBlocking().map { entity ->
                 userMapper.mapToDomain(entity)
             }
-            return Single.just(users)
+            return users
         } else {
-            return Single.error { Throwable(resultDb.getResultInfo().exMsg) }
+            throw RepositoryException(resultDb.getResultInfo().exMsg)
         }
     }
+
 }

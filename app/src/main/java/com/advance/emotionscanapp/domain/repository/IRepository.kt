@@ -1,18 +1,22 @@
 package com.advance.emotionscanapp.domain.repository
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import com.advance.emotionscanapp.data.extension.RepositoryException
 
 interface IRepository<T : Any> {
 
-    fun insert(t: T): Completable
+    @Throws(RepositoryException::class)
+    fun insert(t: T)
 
-    fun update(t: T): Completable
+    @Throws(RepositoryException::class)
+    fun update(t: T)
 
-    fun delete(t: T): Completable
+    @Throws(RepositoryException::class)
+    fun delete(t: T)
 
-    suspend fun getById(id: Int): Single<T>
+    @Throws(RepositoryException::class)
+    fun getById(id: Int): T
 
-    suspend fun getAll(): Single<List<T>>
+    @Throws(RepositoryException::class)
+    fun getAll(): List<T>
 
 }

@@ -31,7 +31,9 @@ object RxTaskManager {
     }
 
     interface TaskCallback<T> {
-        fun onSuccess(t: T)
+        fun onSubscribe()
+        fun onSuccess(t: T) {}
+        fun onSuccess() {}
         fun onError(e: Throwable)
         fun onComplete()
     }
@@ -45,19 +47,19 @@ object RxTaskManager {
             try {
                 task()
             } finally {
+                callback?.onComplete()
                 activeThreadCount.decrementAndGet()
             }
         }
             .subscribeOn(scheduler)
             .observeOn(Schedulers.io())
-            .subscribe(
-                {
+            .doOnSubscribe {
+                callback?.onSubscribe()
+            }
+            .subscribe({
                     callback?.onSuccess(Unit)
-                    callback?.onComplete()
-                },
-                { e ->
+                }, { e ->
                     callback?.onError(e)
-                    callback?.onComplete()
                 }
             )
         compositeDisposable.add(disposable)
@@ -74,19 +76,16 @@ object RxTaskManager {
                 try {
                     task()
                 } finally {
+                    callback?.onComplete()
                     activeThreadCount.decrementAndGet()
                 }
             }
             .subscribeOn(scheduler)
             .observeOn(Schedulers.io())
-            .subscribe(
-                { result ->
+            .subscribe({ result ->
                     callback?.onSuccess(result)
-                    callback?.onComplete()
-                },
-                { e ->
+                }, { e ->
                     callback?.onError(e)
-                    callback?.onComplete()
                 }
             )
         compositeDisposable.add(disposable)

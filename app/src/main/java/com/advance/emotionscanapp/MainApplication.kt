@@ -8,11 +8,13 @@ import com.advance.emotionscanapp.domain.usecase.strategy.DefaultUserStrategy
 import com.advance.emotionscanapp.domain.usecase.strategy.Strategy
 import com.advance.emotionscanapp.domain.usecase.strategy.StrategyContext
 import com.advance.emotionscanapp.uil.log.Log
+import com.advance.emotionscanapp.uil.rx.RxTaskManager
 
 class MainApplication: Application() {
 
     companion object {
         private val TAG = MainApplication::javaClass.name
+        private const val MAX_THREADS = 5
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -23,6 +25,7 @@ class MainApplication: Application() {
         StrategyContext.getInstance().init(
             Pair(StrategyContext.StrategyKey.STRATEGY_USER, DefaultUserStrategy() as Strategy<BaseModel, IRepository<BaseModel>>)
         )
+        RxTaskManager.setMaxThread(MAX_THREADS)
         Log.funOut(TAG, "onCreate")
     }
 
