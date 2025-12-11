@@ -1,5 +1,6 @@
 package com.advance.emotionscanapp.uil.rx
 
+import com.advance.emotionscanapp.uil.log.Log
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -9,6 +10,8 @@ import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 
 object RxTaskManager {
+
+    private val TAG = RxTaskManager::javaClass.name
 
     private const val DEFAULT_MAX_THREADS = 5
 
@@ -42,6 +45,7 @@ object RxTaskManager {
         task: () -> Unit,
         callback: TaskCallback<Unit>? = null
     ): Disposable {
+        Log.funIn(TAG, "execCompletable")
         val disposable = Completable.fromCallable {
             activeThreadCount.incrementAndGet()
             try {
@@ -56,13 +60,11 @@ object RxTaskManager {
             .doOnSubscribe {
                 callback?.onSubscribe()
             }
-            .subscribe({
-                    callback?.onSuccess(Unit)
-                }, { e ->
-                    callback?.onError(e)
-                }
+            .subscribe({ callback?.onSuccess(Unit) },
+                { e -> callback?.onError(e) }
             )
         compositeDisposable.add(disposable)
+        Log.funOut(TAG, "execCompletable")
         return disposable
     }
 
@@ -70,6 +72,7 @@ object RxTaskManager {
         task: () -> T,
         callback: TaskCallback<T>? = null
     ): Disposable {
+        Log.funIn(TAG, "execSingle")
         val disposable = Single
             .fromCallable<T> {
                 activeThreadCount.incrementAndGet()
@@ -82,13 +85,11 @@ object RxTaskManager {
             }
             .subscribeOn(scheduler)
             .observeOn(Schedulers.io())
-            .subscribe({ result ->
-                    callback?.onSuccess(result)
-                }, { e ->
-                    callback?.onError(e)
-                }
+            .subscribe({ result -> callback?.onSuccess(result) },
+                { e -> callback?.onError(e) }
             )
         compositeDisposable.add(disposable)
+        Log.funOut(TAG, "execSingle")
         return disposable
     }
 

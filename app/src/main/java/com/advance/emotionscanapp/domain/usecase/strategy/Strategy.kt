@@ -25,8 +25,9 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
 
     fun insert(t: T) {
         Log.funIn(TAG, "insert")
-        RxTaskManager.execSingle(
+        RxTaskManager.execCompletable(
             {
+                Log.i(TAG, "Strategy-execCompletable execute.")
                 repository.insert(t)
             }, object : TaskCallback<Unit> {
                 override fun onSubscribe() {
@@ -47,13 +48,13 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
 
             }
         )
-        Log.funIn(TAG, "insert")
+        Log.funIn(TAG, "Strategy-insert")
     }
 
     fun update(t: T) {
-        Log.funIn(TAG, "update")
+        Log.funIn(TAG, "Strategy-update")
 
-        RxTaskManager.execSingle(
+        RxTaskManager.execCompletable(
             {
                 repository.update(t)
             }, object : TaskCallback<Unit> {
@@ -75,12 +76,12 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
 
             }
         )
-        Log.funIn(TAG, "update")
+        Log.funIn(TAG, "Strategy-update")
     }
 
     fun delete(t: T) {
-        Log.funIn(TAG, "delete")
-        RxTaskManager.execSingle(
+        Log.funIn(TAG, "Strategy-delete")
+        RxTaskManager.execCompletable(
             {
                 repository.delete(t)
             }, object : TaskCallback<Unit> {
@@ -102,11 +103,11 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
 
             }
         )
-        Log.funIn(TAG, "delete")
+        Log.funIn(TAG, "Strategy-delete")
     }
 
     fun getById(id: Int) {
-        Log.funIn(TAG, "getById")
+        Log.funIn(TAG, "Strategy-getById")
         RxTaskManager.execSingle(
             {
                 repository.getById(id)
@@ -129,11 +130,11 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
 
             }
         )
-        Log.funIn(TAG, "getById")
+        Log.funIn(TAG, "Strategy-getById")
     }
 
     fun getAll() {
-        Log.funIn(TAG, "getById")
+        Log.funIn(TAG, "Strategy-getById")
         RxTaskManager.execSingle(
             {
                 repository.getAll()
@@ -156,7 +157,7 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
 
             }
         )
-        Log.funIn(TAG, "getById")
+        Log.funIn(TAG, "Strategy-getById")
     }
 
     fun release() {

@@ -130,8 +130,6 @@ private fun HomeContent(
                     Log.funIn(TAG, "AddUserBtn.onClick")
                     val user = User.RegularUser(1, tfName, tfEmail)
                     onIntent(HomeIntent.InsertUser(user))
-                    tfName = ""
-                    tfEmail = ""
                     Log.funOut(TAG, "AddUserBtn.onClick")
                 }
             ) {

@@ -8,13 +8,20 @@ import com.advance.emotionscanapp.data.result.ResultInfoError
 import com.advance.emotionscanapp.data.result.ResultInfoSuccess
 import com.advance.emotionscanapp.data.result.SuccessCode
 import com.advance.emotionscanapp.uil.di.DIContainer
+import com.advance.emotionscanapp.uil.log.Log
 import kotlinx.coroutines.flow.Flow
 
 class UserLocalDataSrcImpl(
     private val userDao: UserDao = DIContainer.inject<UserDao>()
 ): IUserLocalDataSource {
 
+    companion object {
+        private val TAG = UserLocalDataSrcImpl::javaClass.name
+    }
+
     override fun insert(user: UserEntity): DbResult<Nothing?> {
+        Log.funIn(TAG, "UserLocalDataSrcImpl-insert")
+        Log.funOut(TAG, "UserLocalDataSrcImpl-insert")
         return runCatching {
             userDao.insert(user)
             DbResult(
@@ -38,6 +45,8 @@ class UserLocalDataSrcImpl(
     }
 
     override fun update(user: UserEntity): DbResult<Nothing?> {
+        Log.funIn(TAG, "UserLocalDataSrcImpl-update")
+        Log.funOut(TAG, "UserLocalDataSrcImpl-update")
         return runCatching {
             userDao.update(user)
             DbResult(
@@ -61,6 +70,8 @@ class UserLocalDataSrcImpl(
     }
 
     override fun delete(user: UserEntity): DbResult<Nothing?> {
+        Log.funIn(TAG, "delete")
+        Log.funOut(TAG, "delete")
         return runCatching {
             userDao.delete(user)
             DbResult(
@@ -84,6 +95,8 @@ class UserLocalDataSrcImpl(
     }
 
     override fun getUserById(id: Int): DbResult<Flow<UserEntity>?> {
+        Log.funIn(TAG, "UserLocalDataSrcImpl-getUserById")
+        Log.funOut(TAG, "UserLocalDataSrcImpl-getUserById")
         return runCatching {
             val user = userDao.getUserById(id)
             DbResult<Flow<UserEntity>?>(
@@ -107,6 +120,8 @@ class UserLocalDataSrcImpl(
     }
 
     override fun getAll(): DbResult<Flow<List<UserEntity>>?> {
+        Log.funIn(TAG, "UserLocalDataSrcImpl-getAll")
+        Log.funOut(TAG, "UserLocalDataSrcImpl-getAll")
         return runCatching {
             val users = userDao.getAll()
             DbResult<Flow<List<UserEntity>>?>(
