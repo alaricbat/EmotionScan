@@ -34,7 +34,7 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
                     _operationListener?.onLoading()
                 }
 
-                override fun onSuccess() {
+                override fun onSuccess(t: Unit) {
                     _operationListener?.onSuccess()
                 }
 
@@ -62,7 +62,7 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
                     _operationListener?.onLoading()
                 }
 
-                override fun onSuccess() {
+                override fun onSuccess(t: Unit) {
                     _operationListener?.onSuccess()
                 }
 
@@ -89,7 +89,7 @@ abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
                     _operationListener?.onLoading()
                 }
 
-                override fun onSuccess() {
+                override fun onSuccess(t: Unit) {
                     _operationListener?.onSuccess()
                 }
 

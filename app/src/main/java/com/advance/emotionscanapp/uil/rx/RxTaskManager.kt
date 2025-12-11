@@ -35,8 +35,7 @@ object RxTaskManager {
 
     interface TaskCallback<T> {
         fun onSubscribe()
-        fun onSuccess(t: T) {}
-        fun onSuccess() {}
+        fun onSuccess(t: T)
         fun onError(e: Throwable)
         fun onComplete()
     }
