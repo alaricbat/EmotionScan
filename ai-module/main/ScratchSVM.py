@@ -7,7 +7,7 @@ class ScratchSVM:
                  lambda_param = 0.01, 
                  n_iters = 50):
         self.lr = learning_rate
-        self.lambda_param = lambda_param
+        self.lambda_param = lambda_param    #Soft-margin control (1/C)
         self.n_iters = n_iters
         self.w = None
         self.b = None
@@ -32,11 +32,20 @@ class ScratchSVM:
                 x_i = X[idx]
                 y_i = y[idx]
 
-                # Compute dot product: w^T * x
-                dot_compute = sum(self.w[j] * x_i[j] for j in range(n_features) + self.b)
+                # Compute dot product: w^T * x + b
+                dot_compute = sum(wj * x_ij for wj, x_ij in zip(self.w, x_i))
                 
-
                 # Check condition: y_i * (w^T * x_i + b) >= 1
+                condition = y_i * (dot_compute + self.b) >=1
+
+                if condition:
+                    self.w = [wj - self.lr * (2 * self.lambda_param * wj) for wj in self.w]
+                else:
+                    self.w = [wj - self.lr * (2 * self.lambda_param * wj - (y_i * xij)) 
+                              for wj, xij in zip(self.w, x_i)]
+                    self.b -= (self.lr * (-y_i))
+
+
 
 
 
