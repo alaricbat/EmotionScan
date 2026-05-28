@@ -45,7 +45,23 @@ class ScratchSVM:
                               for wj, xij in zip(self.w, x_i)]
                     self.b -= (self.lr * (-y_i))
 
-
-
-
-
+    def predict_raw(self, x_i):
+        """
+        Calculates the raw hyperplane distance score: f(x) = w^T * x + b
+        If score > 0, it leans Happy. If score < 0, it leans Sad.
+        """
+        # Linear combination: w^T * x + b using pure Python
+        return sum(w_j * xij for w_j, xij in zip(self.w, x_i)) + self.b
+    
+    def predict(self, X):
+        """
+        Takes a dataset matrix X and returns a list of hard predictions [1, -1, 1, ...]
+        """
+        predictions = []
+        for x_i in X:
+            raw_score = self.predict_raw(x_i)
+            if (raw_score > 0):
+                predictions.append(1)
+            else:
+                predictions.append(-1)
+        return predictions
