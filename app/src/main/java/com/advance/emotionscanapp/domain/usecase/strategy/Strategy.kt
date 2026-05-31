@@ -3,9 +3,9 @@ package com.advance.emotionscanapp.domain.usecase.strategy
 import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
-import com.advance.emotionscanapp.uil.log.Log
-import com.advance.emotionscanapp.uil.rx.RxTaskManager
-import com.advance.emotionscanapp.uil.rx.RxTaskManager.TaskCallback
+import com.advance.emotionscanapp.util.log.Log
+import com.advance.emotionscanapp.util.rx.RxTaskManager
+import com.advance.emotionscanapp.util.rx.RxTaskManager.TaskCallback
 
 abstract class Strategy<T : BaseModel, in R : IRepository<T>> (
     private val repository: R

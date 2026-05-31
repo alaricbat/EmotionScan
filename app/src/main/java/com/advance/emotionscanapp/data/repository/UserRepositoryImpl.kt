@@ -8,7 +8,7 @@ import com.advance.emotionscanapp.data.extension.firstBlocking
 import com.advance.emotionscanapp.data.mapper.UserMapper
 import com.advance.emotionscanapp.domain.model.User
 import com.advance.emotionscanapp.domain.repository.IUserRepository
-import com.advance.emotionscanapp.uil.log.Log
+import com.advance.emotionscanapp.util.log.Log
 
 class UserRepositoryImpl(
     private val remoteDataSource: IUserRemoteDataSource?,

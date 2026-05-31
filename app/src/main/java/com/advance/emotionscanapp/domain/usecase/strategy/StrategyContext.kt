@@ -3,7 +3,7 @@ package com.advance.emotionscanapp.domain.usecase.strategy
 import com.advance.emotionscanapp.domain.core.operation.OperationListener
 import com.advance.emotionscanapp.domain.model.BaseModel
 import com.advance.emotionscanapp.domain.repository.IRepository
-import com.advance.emotionscanapp.uil.log.Log
+import com.advance.emotionscanapp.util.log.Log
 
 class StrategyContext {
 

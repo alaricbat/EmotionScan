@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.advance.emotionscanapp.R
 import com.advance.emotionscanapp.domain.model.User
-import com.advance.emotionscanapp.uil.log.Log
+import com.advance.emotionscanapp.util.log.Log
 import com.advance.emotionscanapp.presentation.ui.home.HomeEvent
 import com.advance.emotionscanapp.presentation.ui.home.HomeIntent
 import com.advance.emotionscanapp.presentation.ui.home.HomeState

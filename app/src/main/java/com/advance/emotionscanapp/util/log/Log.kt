@@ -1,4 +1,4 @@
-package com.advance.emotionscanapp.uil.log
+package com.advance.emotionscanapp.util.log
 
 import android.util.Log
 import java.time.LocalDate
@@ -20,8 +20,8 @@ class Log {
             Log.d("$TAG[$tagName]", msg)
         }
 
-        fun e(tagName: String, msg: String) {
-            Log.e("$TAG[$tagName]", msg)
+        fun e(tagName: String, msg: String?) {
+            msg?.let { Log.e("$TAG[$tagName]", it) }
         }
 
         fun w(tagName: String, msg: String) {

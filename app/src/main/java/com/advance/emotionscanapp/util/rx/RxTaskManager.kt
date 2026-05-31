@@ -1,6 +1,6 @@
-package com.advance.emotionscanapp.uil.rx
+package com.advance.emotionscanapp.util.rx
 
-import com.advance.emotionscanapp.uil.log.Log
+import com.advance.emotionscanapp.util.log.Log
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
