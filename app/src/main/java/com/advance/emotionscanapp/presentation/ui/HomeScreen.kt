@@ -86,6 +86,7 @@ private fun HomeContent(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
+                    Log.i(TAG, "[FloatingActionButton][onClick]: execute.")
 
                 }
             ) {
