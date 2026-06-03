@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.work.ktx)
     implementation(libs.kotlinx.metadata.jvm)
     implementation(libs.lifecycle.viewmodel.compose)
+    implementation(libs.io.coil.compose)
     ksp(libs.room.complier)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
