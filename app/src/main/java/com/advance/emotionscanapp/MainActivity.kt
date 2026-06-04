@@ -13,9 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            HomeScreen(onNavigationToDetail = { user ->
-                DetailScreen(user)
-            })
+            HomeScreen()
         }
     }
 }

@@ -9,6 +9,7 @@ import com.advance.emotionscanapp.domain.usecase.factory.UseCaseType
 import com.advance.emotionscanapp.util.log.Log
 import com.advance.emotionscanapp.presentation.core.BaseViewModel
 import com.advance.emotionscanapp.presentation.core.ViewEvent
+import com.advance.emotionscanapp.presentation.ui.ImgProcessScreen
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -28,20 +29,14 @@ class HomeViewModel(
 
     override fun processIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.LoadUsers -> viewModelScope.launch {
-                Log.i(TAG, "processIntent [HomeIntent.loadUsers]")
-                loadUsers()
-            }
-            is HomeIntent.UserClick -> viewModelScope.launch {
-                Log.i(TAG, "processIntent [HomeIntent.onUserClick]")
-                onUserClick(intent.user)
+            is HomeIntent.NavigateToImgProcessScreen -> {
+                Log.i(TAG, "[processIntent]: HomeIntent.NavigateToImage")
+                _events.postValue(HomeEvent.NavigateToImgProcessScreen)
             }
             is HomeIntent.InsertUser -> viewModelScope.launch {
-                Log.i(TAG, "processIntent [HomeIntent.InsertUser]")
                 insertUser(intent.user)
             }
             is HomeIntent.SearchUsers -> viewModelScope.launch {
-                Log.i(TAG, "processIntent [HomeIntent.searchUsers]")
                 searchUsers(intent.query)
             }
         }
@@ -49,63 +44,6 @@ class HomeViewModel(
 
     override fun createErrorEvent(throwable: Throwable): ViewEvent {
         return HomeEvent.ShowError(throwable.message ?: STR_UNKNOWN_ERR)
-    }
-
-    private suspend fun loadUsers() {
-
-        val useCase = factoryProvider.getFactory<User>(UseCaseType.UserFactory).createGetAllUseCase()
-        useCase(object : OperationListener<BaseModel> {
-            override fun onStart() {
-                Log.funIn(TAG, "onStart")
-                _state.value = _state.value?.copy(
-                    isStart = false,
-                    error = null
-                )
-                Log.funOut(TAG, "onStart")
-            }
-
-            override fun onLoading() {
-                Log.funIn(TAG, "onLoading")
-                _state.value = _state.value?.copy(
-                    isStart = false,
-                    isLoading = true
-                )
-                Log.funOut(TAG, "onLoading")
-            }
-
-            override fun onSuccessWithListData(t: List<BaseModel>) {
-                Log.funIn(TAG, "onSuccessWithListData")
-                _state.value = _state.value?.copy(
-                    isLoading = false,
-                    users = t.map { baseModel -> baseModel as User }.toList()
-                )
-                Log.funOut(TAG, "onSuccessWithListData")
-            }
-
-            override fun onError(throwable: Throwable) {
-                Log.funIn(TAG, "onError")
-                _state.value = _state.value?.copy(
-                    isStart = false,
-                    isLoading = false,
-                    isCompleted = false,
-                    error = throwable.message
-                )
-                _events.postValue(createErrorEvent(throwable) as HomeEvent?)
-                Log.funOut(TAG, "onError")
-            }
-
-            override fun onCompleted() {
-                Log.funIn(TAG, "onCompleted")
-                _state.value = _state.value?.copy(
-                    isStart = false,
-                    isLoading = false,
-                    isCompleted = true,
-                )
-                Log.funOut(TAG, "onCompleted")
-            }
-
-        })
-
     }
 
     private suspend fun insertUser(user: User) {
@@ -178,10 +116,6 @@ class HomeViewModel(
             users.name.contains(query, ignoreCase = true) ||
                     users.email.contains(query, ignoreCase = true)
         }
-    }
-
-    private fun onUserClick(user: User) {
-        _events.value = HomeEvent.NavigateToUserDetail(user)
     }
 
 }

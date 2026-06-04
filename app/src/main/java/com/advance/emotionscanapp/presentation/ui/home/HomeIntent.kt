@@ -5,9 +5,7 @@ import com.advance.emotionscanapp.presentation.core.ViewIntent
 
 sealed class HomeIntent : ViewIntent {
 
-    object LoadUsers : HomeIntent()
-
-    data class UserClick(val user: User) : HomeIntent()
+    object NavigateToImgProcessScreen : HomeIntent()
 
     data class InsertUser(val user: User) : HomeIntent()
 

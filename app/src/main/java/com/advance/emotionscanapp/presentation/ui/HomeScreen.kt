@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -34,7 +34,7 @@ private const val TAG = "HomeScreen"
 
 @Composable
 fun HomeScreen (
-    viewModel: HomeViewModel = diViewModel<HomeViewModel>()
+    viewModel: HomeViewModel = diViewModel<HomeViewModel>(),
 ) {
     val context = LocalContext.current
 
@@ -45,7 +45,7 @@ fun HomeScreen (
         when (event) {
             is HomeEvent.ShowError -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
             is HomeEvent.ShowSuccess -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-            is HomeEvent.NavigateToUserDetail -> TODO()
+            is HomeEvent.NavigateToImgProcessScreen -> ImgProcessScreen()
         }
         Log.funOut(TAG, "[events.observeAsState()]-[onChange]")
     }
@@ -68,11 +68,11 @@ private fun HomeContent(
             FloatingActionButton(
                 onClick = {
                     Log.i(TAG, "[FloatingActionButton][onClick]: execute.")
-
+                    onIntent(HomeIntent.NavigateToImgProcessScreen)
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.Home,
+                    imageVector = Icons.Default.Create,
                     contentDescription = "Home Page"
                 )
             }
