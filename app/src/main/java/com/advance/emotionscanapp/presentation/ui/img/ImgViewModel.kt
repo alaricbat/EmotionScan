@@ -3,10 +3,13 @@ package com.advance.emotionscanapp.presentation.ui.img
 import com.advance.emotionscanapp.presentation.core.BaseViewModel
 import com.advance.emotionscanapp.presentation.core.ViewEvent
 
-class ImgViewModel : BaseViewModel<ImgIntent, ImgState, ImgEvent>() {
+class ImgProcessViewModel : BaseViewModel<ImgProcessIntent, ImgProcessState, ImgProcessEvent>() {
 
+    companion object {
+        private val TAG = ImgProcessViewModel::javaClass.name
+    }
 
-    override fun processIntent(intent: ImgIntent) {
+    override fun processIntent(intent: ImgProcessIntent) {
 
     }
 
