@@ -31,6 +31,7 @@ import com.advance.emotionscanapp.R
 import com.advance.emotionscanapp.presentation.ui.img.ImgProcessIntent
 import com.advance.emotionscanapp.presentation.ui.img.ImgProcessViewModel
 import com.advance.emotionscanapp.presentation.vm.diViewModel
+import com.advance.emotionscanapp.util.log.Log
 
 private const val TAG = "ImgScreen"
 
@@ -48,13 +49,9 @@ fun ImgContent(
     onIntent: (ImgProcessIntent) -> Unit
 ) {
 
-    var selectedImageUri by remember {
-        mutableStateOf<Uri?>(null)
-    }
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
-    var selectedImageUris by remember {
-        mutableStateOf<List<Uri>>(emptyList())
-    }
+    var selectedImageUris by remember { mutableStateOf<List<Uri>>(emptyList()) }
 
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -127,9 +124,11 @@ fun ImgContent(
             item {
                 Button(
                     onClick = {
+                        Log.funIn(TAG, "[ImgProcessing][onClick]")
                         onIntent(
                             ImgProcessIntent.ImgProcessing(selectedImageUri)
                         )
+                        Log.funOut(TAG, "[ImgProcessing][onClick]")
                     },
                     modifier = Modifier
                         .padding(16.dp)

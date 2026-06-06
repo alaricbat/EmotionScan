@@ -1,5 +1,7 @@
 package com.advance.emotionscanapp.presentation.core
 
+import android.annotation.SuppressLint
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +20,13 @@ abstract class BaseViewModel<Intent: ViewIntent, State: ViewState, Event: ViewEv
 
     protected val _events: SingleLiveEvent<Event> = SingleLiveEvent()
     val events: LiveData<Event> get() = _events
+
+    @SuppressLint("StaticFieldLeak")
+    protected lateinit var context: Context
+
+    constructor(context: Context) {
+        this.context = context
+    }
 
     abstract fun processIntent(intent: Intent)
 

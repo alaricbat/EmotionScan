@@ -3,7 +3,6 @@
 
     <string name="str_home_screen_title">Emotional App</string>
     <string name="str_home_screen_author">Chu Tat</string>
-    <string name="str_home_screen_floating_btn_title">Add user button</string>
     <string name="str_home_screen_center_btn">Center button</string>
     <string name="str_home_screen_add_user_btn">Add User</string>
     <string name="str_home_screen_user_name_text">User name</string>

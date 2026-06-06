@@ -13,8 +13,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -40,20 +44,35 @@ fun HomeScreen (
 
     val state by viewModel.state.observeAsState(HomeState())
 
-    viewModel.events.observeAsState().value?.let { event ->
-        Log.funIn(TAG, "[events.observeAsState()]-[onChange]")
-        when (event) {
-            is HomeEvent.ShowError -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-            is HomeEvent.ShowSuccess -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-            is HomeEvent.NavigateToImgProcessScreen -> ImgProcessScreen()
+    val event by viewModel.events.observeAsState()
+
+    var isNavigateToImgProcessScreen by remember { mutableStateOf(false) }
+
+    LaunchedEffect(event) {
+        event?.let {
+            Log.funIn(TAG, "[events.observeAsState()][onChange]")
+            Log.i(TAG, "[events.observeAsState()][onChange]: event = $event")
+            when (it) {
+                is HomeEvent.ShowError -> Toast.makeText(context, "", Toast.LENGTH_SHORT).show()
+                is HomeEvent.ShowSuccess -> Toast.makeText(context, "", Toast.LENGTH_SHORT).show()
+                is HomeEvent.NavigateToImgProcessScreen -> {
+                    Log.i(TAG, "[events.observeAsState()][onChange]: start img process screen.")
+                    isNavigateToImgProcessScreen = true
+                }
+            }
+            Log.funOut(TAG, "[events.observeAsState()][onChange]")
         }
-        Log.funOut(TAG, "[events.observeAsState()]-[onChange]")
     }
 
-    HomeContent(
-        state = state,
-        onIntent = viewModel::processIntent
-    )
+    if (isNavigateToImgProcessScreen) {
+        ImgProcessScreen()
+    } else {
+        HomeContent(
+            state = state,
+            onIntent = viewModel::processIntent
+        )
+    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -28,6 +28,7 @@ class HomeViewModel(
     }
 
     override fun processIntent(intent: HomeIntent) {
+        Log.funIn(TAG, "[processIntent]")
         when (intent) {
             is HomeIntent.NavigateToImgProcessScreen -> {
                 Log.i(TAG, "[processIntent]: HomeIntent.NavigateToImage")
@@ -40,6 +41,7 @@ class HomeViewModel(
                 searchUsers(intent.query)
             }
         }
+        Log.funOut(TAG, "[processIntent]")
     }
 
     override fun createErrorEvent(throwable: Throwable): ViewEvent {

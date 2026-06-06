@@ -5,11 +5,9 @@ import com.advance.emotionscanapp.util.log.Log
 import org.json.JSONObject
 import java.nio.charset.StandardCharsets
 
-class SVMClassifier {
+object SVMClassifier {
 
-    companion object {
-        private val TAG = SVMClassifier::javaClass.name
-    }
+    private val TAG = SVMClassifier::javaClass.name
 
     private lateinit var mWeights: FloatArray
 
@@ -17,7 +15,7 @@ class SVMClassifier {
 
     private var isMoreLoaded = false
 
-    constructor(context: Context) {
+    fun init(context: Context) {
         loadModelFromAssets(context)
     }
 

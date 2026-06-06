@@ -9,6 +9,7 @@ import com.advance.emotionscanapp.domain.usecase.strategy.Strategy
 import com.advance.emotionscanapp.domain.usecase.strategy.StrategyContext
 import com.advance.emotionscanapp.util.log.Log
 import com.advance.emotionscanapp.util.rx.RxTaskManager
+import com.advance.emotionscanapp.util.svm.SVMClassifier
 
 class MainApplication: Application() {
 
@@ -26,6 +27,7 @@ class MainApplication: Application() {
             Pair(StrategyContext.StrategyKey.STRATEGY_USER, DefaultUserStrategy() as Strategy<BaseModel, IRepository<BaseModel>>)
         )
         RxTaskManager.setMaxThread(MAX_THREADS)
+        SVMClassifier.init(this)
         Log.funOut(TAG, "onCreate")
     }
 
