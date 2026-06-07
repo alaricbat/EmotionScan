@@ -34,8 +34,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.advance.emotionscanapp.R
 import com.advance.emotionscanapp.presentation.ui.img.ImgProcessEvent
@@ -64,6 +67,8 @@ fun ImgProcessScreen(
 
     var result by remember { mutableStateOf("") }
 
+    var scoreString by remember { mutableStateOf("") }
+
     val state by viewModel.state.observeAsState()
 
     val event by viewModel.events.observeAsState()
@@ -80,6 +85,14 @@ fun ImgProcessScreen(
                 result = if (label == SVMClassifier.SVMClassifierLabel.LABEL_HAPPY) happyText else sadText
                 Log.i(TAG, "[onPredicted]: result = $result")
                 Toast.makeText(context, result, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        override fun onScored(score: Float) {
+            CoroutineScope(Dispatchers.Main).launch {
+                Log.i(TAG, "[onScored]: execute.")
+                scoreString = "Score = $score"
+                Log.i(TAG, "[onScored]: score = $scoreString")
             }
         }
 
@@ -120,6 +133,7 @@ fun ImgProcessScreen(
     
     ImgContent(
         isLoading,
+        scoreString,
         result,
         onIntent = viewModel::processIntent
     )
@@ -128,6 +142,7 @@ fun ImgProcessScreen(
 @Composable
 fun ImgContent(
     isLoading: Boolean,
+    scoreString: String,
     resultString: String,
     onIntent: (ImgProcessIntent) -> Unit
 ) {
@@ -180,7 +195,20 @@ fun ImgContent(
                     .height(50.dp)
                     .padding(vertical = 10.dp),
                 text = resultString,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
 
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .padding(vertical = 10.dp),
+                text = scoreString,
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
             )
 
         }

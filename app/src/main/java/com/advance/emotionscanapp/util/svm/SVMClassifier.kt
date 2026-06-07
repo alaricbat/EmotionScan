@@ -67,6 +67,7 @@ object SVMClassifier {
                 score += mWeights[i] * input[i]
             }
             Log.funOut(TAG, "[predict]: score = $score")
+            listener.onScored(score)
 
             var result = SVMClassifierLabel.LABEL_SAD
 
@@ -86,6 +87,8 @@ object SVMClassifier {
     interface SVMClassifierListener {
 
         fun onPredicted(label: SVMClassifierLabel)
+
+        fun onScored(score: Float)
 
         fun onError(msg: String)
 
