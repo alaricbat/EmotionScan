@@ -22,8 +22,4 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         super.setValue(value)
     }
 
-    fun call() {
-        value = null
-    }
-
 }

@@ -10,5 +10,7 @@
     <string name="str_img_process_start_guessing_emotion">Start guessing emotion</string>
     <string name="str_img_process_pick_multiple_photo">Pick multiple photo</string>
     <string name="str_img_process_pick_one_photo">Pick one photo</string>
+    <string name="str_img_process_happy_label">Happy (+1)</string>
+    <string name="str_img_process_sad_label">Sad (-1)</string>
 
 </resources>

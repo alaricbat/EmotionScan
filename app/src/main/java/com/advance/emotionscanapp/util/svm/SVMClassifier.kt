@@ -15,8 +15,14 @@ object SVMClassifier {
 
     private var isMoreLoaded = false
 
+    private val listeners = mutableListOf<SVMClassifierListener>()
+
     fun init(context: Context) {
         loadModelFromAssets(context)
+    }
+
+    fun register(listener: SVMClassifierListener) {
+        listeners.add(listener)
     }
 
     private fun loadModelFromAssets(context: Context) {
@@ -45,10 +51,14 @@ object SVMClassifier {
         }
     }
 
-    fun predict(input: FloatArray): String {
-
+    fun predict(input: FloatArray) {
+        Log.funIn(TAG, "predict")
         if (!isMoreLoaded) {
-            return "Model Error"
+            for (l in listeners) {
+                l.onError("Loaded state is error.")
+            }
+            Log.funOut(TAG, "predict")
+            return
         }
 
         var score = mBias
@@ -57,12 +67,31 @@ object SVMClassifier {
             score += mWeights[i] * input[i]
         }
 
+        var result = SVMClassifierLabel.LABEL_SAD
+
         if (score >= 0.0f) {
-            return "Happy (+1)"
-        } else {
-            return "Sad (-1)"
+            result = SVMClassifierLabel.LABEL_HAPPY
         }
 
+        for (l in listeners) {
+            l.onPredicted(result)
+        }
+
+        Log.funOut(TAG, "predict")
+
+    }
+
+    interface SVMClassifierListener {
+
+        fun onPredicted(label: SVMClassifierLabel)
+
+        fun onError(msg: String)
+
+    }
+
+    enum class SVMClassifierLabel {
+        LABEL_HAPPY,
+        LABEL_SAD
     }
 
 }
