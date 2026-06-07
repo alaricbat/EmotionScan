@@ -2,6 +2,7 @@ package com.advance.emotionscanapp.presentation.ui
 
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -46,10 +47,11 @@ import com.advance.emotionscanapp.util.log.Log
 import com.advance.emotionscanapp.util.svm.SVMClassifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "ImgScreen"
+private const val TAG = "ImgProcessScreen"
 
 @Composable
 fun ImgProcessScreen(
@@ -73,19 +75,26 @@ fun ImgProcessScreen(
     val svmListener: SVMClassifier.SVMClassifierListener = object : SVMClassifier.SVMClassifierListener {
         override fun onPredicted(label: SVMClassifier.SVMClassifierLabel) {
             CoroutineScope(Dispatchers.Main).launch {
+                Log.i(TAG, "[onPredicted]: execute.")
+                isLoading = false
                 result = if (label == SVMClassifier.SVMClassifierLabel.LABEL_HAPPY) happyText else sadText
+                Log.i(TAG, "[onPredicted]: result = $result")
+                Toast.makeText(context, result, Toast.LENGTH_SHORT).show()
             }
         }
 
         override fun onError(msg: String) {
             CoroutineScope(Dispatchers.Main).launch {
+                Log.i(TAG, "[onError]: execute.")
+                Log.i(TAG, "[onPredicted]: msg = $msg")
+                isLoading = false
                 result = msg
             }
         }
 
     }
 
-    SVMClassifier.register(svmListener)
+    SVMClassifier.setListener(svmListener)
 
     LaunchedEffect(event) {
         event?.let { currentEvent ->
@@ -94,6 +103,9 @@ fun ImgProcessScreen(
                 is ImgProcessEvent.ImgProcessing -> {
                     isLoading = true
                     val uri = currentEvent.uri ?: return@let
+
+                    delay(1000L)
+
                     withContext(Dispatchers.IO) {
                         Log.i(TAG, "[events.observeAsState()][onChange]: start predicting.")
                         val inputStream = context.contentResolver.openInputStream(uri)

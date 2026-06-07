@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EmotionScanApp</string>
+    <string name="app_name">EmotionalApp</string>
 
     <string name="str_home_screen_title">Emotional App</string>
     <string name="str_home_screen_author">Chu Tat</string>
